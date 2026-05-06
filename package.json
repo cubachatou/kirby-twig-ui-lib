@@ -9,7 +9,9 @@
 		"start": "npm run serve & npm run dev"
 	},
 	"devDependencies": {
+		"@tailwindcss/vite": "^4.2.4",
 		"sass": "^1.86.0",
+		"tailwindcss": "^4.2.4",
 		"vite": "^6.3.0"
 	}
 }

@@ -10,6 +10,12 @@ columns:
           text:
             type: textarea
             size: huge
+
+          blocks:
+            type: blocks
+            label: Content Blocks
+            fieldsets:
+              - accordion
   sidebar:
     width: 1/3
     sections:
@@ -18,4 +24,3 @@ columns:
         template: default
       files:
         type: files
-

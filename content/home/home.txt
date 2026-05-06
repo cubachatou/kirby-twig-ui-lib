@@ -2,4 +2,12 @@ Title: Home
 
 ----
 
+Text: 
+
+----
+
+Blocks: [{"content":{"items":[{"title":"Simple (text only)","image":[],"content":"<p>Some content <strong>goes</strong> <em>there</em></p>"}],"style":"simple","html_id":"","css_classes":""},"id":"77b16fcd-0282-4522-ba94-633eb9bb83bc","isHidden":false,"type":"accordion"},{"content":{"items":[{"title":"With Images","image":["file://no8uhk0q4tjy79la"],"content":"<p>Some content goes there</p>"}],"style":"with-images","html_id":"","css_classes":""},"id":"8df6dea1-6496-4d94-8ef5-4840303a5e41","isHidden":false,"type":"accordion"}]
+
+----
+
 Uuid: e9mc5qilkxnlqexk
