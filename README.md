@@ -1,36 +1,145 @@
-<img src="http://getkirby.com/assets/images/github/plainkit.jpg" width="300">
+# kirby-twig-ui-lib — Doc Site
 
-**Kirby: the CMS that adapts to any project, loved by developers and editors alike.**
-The Plainkit is a minimal Kirby setup with the basics you need to start a project from scratch. It is the ideal choice if you are already familiar with Kirby and want to start step-by-step.
+Development environment and documentation website for the [kirby-ui-library](site/plugins/ui-library/README.md) plugin. Built on Kirby CMS 5 with Twig templating, Tailwind CSS v4, and a dual Vite setup.
 
-You can learn more about Kirby at [getkirby.com](https://getkirby.com).
+## What's in this repo
 
-### Try Kirby for free
+| Path | Purpose |
+|---|---|
+| `site/plugins/ui-library/` | The plugin itself (git submodule) |
+| `assets/` | Doc-site source files (JS, SCSS, CSS) |
+| `site/templates/` | Kirby/Twig page templates |
+| `site/blueprints/` | Panel page and block blueprints |
+| `site/config/config.php` | Kirby config (URL, Twig namespaces, Vite helper) |
+| `vite.config.js` | Doc-site Vite config (port 5173, Tailwind v4) |
 
-You can try Kirby and the Plainkit on your local machine or on a test server as long as you need to make sure it is the right tool for your next project. … and when you’re convinced, [buy your license](https://getkirby.com/buy).
+## Requirements
 
-### Get going
+| Dependency | Version |
+|---|---|
+| PHP | 8.2 – 8.5 |
+| Composer | 2.x |
+| Node.js | 18+ |
+| npm | 9+ |
 
-Read our guide on [how to get started with Kirby](https://getkirby.com/docs/guide/quickstart).
+## Getting started
 
-You can [download the latest version](https://github.com/getkirby/plainkit/archive/main.zip) of the Plainkit.
-If you are familiar with Git, you can clone Kirby's Plainkit repository from Github.
+### 1. Clone with submodules
 
-    git clone https://github.com/getkirby/plainkit.git
+\`\`\`bash
+git clone --recurse-submodules https://github.com/your-username/kirby-twig-ui-lib.git
+cd kirby-twig-ui-lib
+\`\`\`
 
-## What's Kirby?
+If you already cloned without `--recurse-submodules`:
 
--   **[getkirby.com](https://getkirby.com)** – Get to know the CMS.
--   **[Try it](https://getkirby.com/try)** – Take a test ride with our online demo. Or download one of our kits to get started.
--   **[Documentation](https://getkirby.com/docs/guide)** – Read the official guide, reference and cookbook recipes.
--   **[Issues](https://github.com/getkirby/kirby/issues)** – Report bugs and other problems.
--   **[Feedback](https://feedback.getkirby.com)** – You have an idea for Kirby? Share it.
--   **[Forum](https://forum.getkirby.com)** – Whenever you get stuck, don't hesitate to reach out for questions and support.
--   **[Discord](https://chat.getkirby.com)** – Hang out and meet the community.
--   **[Mastodon](https://mastodon.social/@getkirby)** – Spread the word.
--   **[Bluesky](https://bsky.app/profile/getkirby.com)** – Spread the word.
+\`\`\`bash
+git submodule update --init
+\`\`\`
 
----
+### 2. Install PHP dependencies
 
-© 2009 Bastian Allgeier
-[getkirby.com](https://getkirby.com) · [License agreement](https://getkirby.com/license)
+\`\`\`bash
+composer install
+\`\`\`
+
+### 3. Install doc-site Node dependencies
+
+\`\`\`bash
+npm install
+\`\`\`
+
+### 4. Install plugin Node dependencies
+
+\`\`\`bash
+cd site/plugins/ui-library
+npm install
+cd ../../..
+\`\`\`
+
+## Development
+
+Open **two terminals**:
+
+**Terminal 1 — Kirby + doc-site Vite:**
+
+\`\`\`bash
+npm run start
+\`\`\`
+
+This runs the PHP built-in server on `http://localhost:8000` and the doc-site Vite dev server on `http://localhost:5173` concurrently.
+
+**Terminal 2 — Plugin Vite (HMR for component styles and JS):**
+
+\`\`\`bash
+cd site/plugins/ui-library
+npm run dev     # → http://localhost:5174
+\`\`\`
+
+| URL | What |
+|---|---|
+| `http://localhost:8000` | Kirby site |
+| `http://localhost:8000/panel` | Kirby Panel (CMS admin) |
+| `http://localhost:5173` | Doc-site Vite HMR |
+| `http://localhost:5174` | Plugin Vite HMR |
+
+## Production build
+
+\`\`\`bash
+# Build doc-site assets
+npm run build
+
+# Build plugin assets (from inside the plugin)
+cd site/plugins/ui-library && npm run build
+\`\`\`
+
+Doc-site output goes to `assets/dist/`. Plugin output goes to `site/plugins/ui-library/assets/` (self-contained, served by Kirby's media pipeline).
+
+## Project structure
+
+\`\`\`
+kirby-twig-ui-lib/
+├── assets/
+│   ├── css/main.css          # Tailwind v4 entry (@import "tailwindcss")
+│   ├── js/main.js            # Doc-site JS entry
+│   └── scss/main.scss        # Doc-site SCSS
+├── content/                  # Flat-file content (Kirby)
+├── site/
+│   ├── blueprints/           # Page blueprints for the Panel
+│   ├── config/config.php     # Kirby config (url, Twig namespaces, viteAsset)
+│   ├── plugins/
+│   │   └── ui-library/       # ← git submodule (kirby-ui-library plugin)
+│   └── templates/
+│       └── default.twig      # Default page template
+├── vite.config.js            # Doc-site Vite (port 5173, Tailwind v4)
+├── package.json
+└── composer.json
+\`\`\`
+
+## How the two Vite instances work
+
+\`\`\`
+Port 5173 — Doc site
+  assets/js/main.js  ─────────►  assets/dist/  (production)
+  assets/css/main.css              Tailwind v4 processed by @tailwindcss/vite
+
+Port 5174 — UI Library plugin
+  src/js/main.js  ────────────►  site/plugins/ui-library/assets/  (production)
+  src/scss/main.scss              Served via Kirby media pipeline
+\`\`\`
+
+Both Vite servers run simultaneously in development; the Twig templates request assets from the correct port automatically.
+
+## Kirby Panel first login
+
+1. Go to `http://localhost:8000/panel`
+2. Create an admin account on first visit
+3. Add pages and use the **Accordion** block from the blocks field
+
+## Plugin documentation
+
+See [site/plugins/ui-library/README.md](site/plugins/ui-library/README.md) for full plugin API, component usage, and how to add new blocks.
+
+## License
+
+MIT
