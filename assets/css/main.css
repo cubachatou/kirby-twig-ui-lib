@@ -25,6 +25,14 @@ pre[class*="language-"] {
 	--color-doc-accent: oklch(57% 0.22 264);
 	--color-doc-accent-dim: oklch(18% 0.06 264);
 
+	/* ── Section palette — wayfinding accent per sidebar section ── */
+	--color-doc-section-1: oklch(78% 0.14 65); /* amber — Getting Started */
+	--color-doc-section-1-dim: oklch(17% 0.06 65);
+	--color-doc-section-2: oklch(57% 0.22 264); /* blue — Components */
+	--color-doc-section-2-dim: oklch(18% 0.06 264);
+	--color-doc-section-3: oklch(75% 0.12 178); /* teal — Snippets */
+	--color-doc-section-3-dim: oklch(16% 0.05 178);
+
 	/* ── Ring — focus indicator, decoupled from accent (shadcn/ui pattern) ── */
 	--color-doc-ring: oklch(57% 0.22 264);
 
@@ -92,7 +100,10 @@ pre[class*="language-"] {
 		color: var(--color-doc-bright);
 		margin: 3.5rem 0 1.5rem;
 		padding-bottom: 0.75rem;
-		border-bottom: 1px solid var(--color-doc-border);
+		background-image: linear-gradient(to right, var(--color-doc-accent), var(--color-doc-border) 30%, transparent 75%);
+		background-repeat: no-repeat;
+		background-position: 0 100%;
+		background-size: 100% 1px;
 		scroll-margin-top: 4.5rem;
 	}
 
@@ -101,7 +112,7 @@ pre[class*="language-"] {
 		font-weight: 600;
 		letter-spacing: 0.06em;
 		text-transform: uppercase;
-		color: var(--color-doc-bright);
+		color: var(--color-doc-accent);
 		margin: 2.5rem 0 1rem;
 		scroll-margin-top: 4.5rem;
 	}
@@ -184,8 +195,8 @@ pre[class*="language-"] {
 	}
 
 	.doc-code-copy:hover {
-		color: var(--color-doc-text);
-		background: var(--color-doc-surface);
+		color: var(--color-doc-accent);
+		background: var(--color-doc-accent-dim);
 	}
 
 	.doc-code-copy:focus-visible {
@@ -435,6 +446,13 @@ pre[class*="language-"] {
 	--color-doc-accent-dim: #e5f0ff;
 	--color-doc-ring: #0070f3;
 	--color-doc-input: #d4d4d4;
+	/* ── Section palette — wayfinding accent per sidebar section ── */
+	--color-doc-section-1: #92400e; /* amber — Getting Started */
+	--color-doc-section-1-dim: #fef3c7;
+	--color-doc-section-2: #0070f3; /* blue — Components */
+	--color-doc-section-2-dim: #e5f0ff;
+	--color-doc-section-3: #0f766e; /* teal — Snippets */
+	--color-doc-section-3-dim: #ccfbf1;
 }
 
 /* Light mode: override example preview to a soft off-white canvas */
@@ -766,6 +784,10 @@ pre[class*="language-"] {
 		outline: none; /* tabindex="-1" for skip link focus */
 	}
 
+	.doc-content h4 {
+		margin-bottom: 0.5rem;
+	}
+
 	/* ── Right TOC ─────────────────────────────────────────────────────── */
 	.doc-toc {
 		grid-area: toc;
@@ -912,6 +934,35 @@ pre[class*="language-"] {
 	.doc-nav-item:focus-visible {
 		outline: 2px solid var(--color-doc-ring);
 		outline-offset: -2px;
+	}
+
+	/* ── Per-section wayfinding: label color + active item tint ────────── */
+	.doc-nav-group:nth-child(1) .doc-nav-group-label {
+		color: var(--color-doc-section-1);
+	}
+	.doc-nav-group:nth-child(2) .doc-nav-group-label {
+		color: var(--color-doc-section-2);
+	}
+	.doc-nav-group:nth-child(3) .doc-nav-group-label {
+		color: var(--color-doc-section-3);
+	}
+
+	.doc-nav-group:nth-child(1) .doc-nav-item--active,
+	.doc-nav-group:nth-child(1) .doc-nav-item--active:hover {
+		color: var(--color-doc-section-1);
+		background-color: var(--color-doc-section-1-dim);
+	}
+
+	.doc-nav-group:nth-child(2) .doc-nav-item--active,
+	.doc-nav-group:nth-child(2) .doc-nav-item--active:hover {
+		color: var(--color-doc-section-2);
+		background-color: var(--color-doc-section-2-dim);
+	}
+
+	.doc-nav-group:nth-child(3) .doc-nav-item--active,
+	.doc-nav-group:nth-child(3) .doc-nav-item--active:hover {
+		color: var(--color-doc-section-3);
+		background-color: var(--color-doc-section-3-dim);
 	}
 
 	/* ── Sidebar mobile backdrop ───────────────────────────────────────── */

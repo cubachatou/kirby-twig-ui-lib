@@ -2,13 +2,15 @@
 name: Kirby UI Library
 description: Self-contained accessible Kirby CMS blocks — semantic markup, CSS-agnostic JS, zero framework opinions.
 colors:
-  active-blue: "#0070f3"
-  pressed-blue: "#003d99"
-  readout-black: "#1a1a1a"
-  mid-register: "#6b6b6b"
-  low-contrast-rule: "#d4d4d4"
-  quiet-paper: "#f8f8f8"
-  shell-white: "#ffffff"
+  surface: "oklch(14% 0.003 255)"
+  surface-hover: "oklch(21% 0.004 255)"
+  border: "oklch(28% 0.005 255)"
+  text: "oklch(90% 0.004 255)"
+  text-muted: "oklch(54% 0.005 255)"
+  focus-ring: "oklch(57.311% 0.21458 258.263)"
+  focus-ring-hover: "oklch(39.107% 0.16074 260.151)"
+  destructive: "oklch(59.013% 0.20533 26.197)"
+  destructive-hover: "oklch(52.301% 0.19793 27.578)"
 doc-site-colors-dark:
   doc-bg: "oklch(10.5% 0.003 255)"
   doc-surface: "oklch(15% 0.004 255)"
@@ -54,22 +56,22 @@ spacing:
   2xl: "48px"
 components:
   accordion-trigger:
-    backgroundColor: "{colors.shell-white}"
-    textColor: "{colors.readout-black}"
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.text}"
     rounded: "0"
     padding: "16px 24px"
   accordion-trigger-hover:
     textDecoration: underline
     textUnderlineOffset: "3px"
-    textColor: "{colors.readout-black}"
+    textColor: "{colors.text}"
   accordion-trigger-expanded:
-    textColor: "{colors.readout-black}"
+    textColor: "{colors.text}"
   accordion-body:
-    backgroundColor: "{colors.shell-white}"
+    backgroundColor: "{colors.surface}"
     padding: "16px 24px 24px"
     animation: "grid-template-rows 220ms ease"
   accordion-body-rich:
-    backgroundColor: "{colors.quiet-paper}"
+    backgroundColor: "{colors.surface-hover}"
     padding: "24px 24px 24px"
     animation: "grid-template-rows 220ms ease"
 ---
@@ -84,7 +86,7 @@ This system is the scaffolding other people's designs sit on. It has no visual o
 
 Every decision traces back to the same question: what does the component need to communicate its state? An accordion is open or closed. The trigger label underlines on hover. The chevron rotates 180 degrees on expand. The panel animates open with a smooth CSS grid height transition (220ms ease). That's it. There are no shadows for depth, no gradient fills for emphasis, no motion choreography for delight. The system behaves predictably because it does less than expected, not more.
 
-The doc-website that documents this plugin is a separate design layer from the plugin itself. The plugin uses SCSS with BEM; the doc-site uses Tailwind v4. They share the same token values for light mode but express them through different mechanisms. The doc-site is also dark-mode-first — its default palette is a cool-tinted near-black (`oklch(10.5% 0.003 255)`) with a toggleable light mode that maps directly to the plugin's own tokens for visual continuity.
+The doc-website that documents this plugin is a separate design layer from the plugin itself. The plugin uses SCSS with BEM; the doc-site uses Tailwind v4. Both are dark-mode-first — the plugin's SCSS tokens use a cool-tinted near-black oklch palette (hue 255), and the doc-site mirrors this approach with its own `--color-doc-*` custom properties. The doc-site provides a toggleable light mode (`oklch(10.5% 0.003 255)` default dark, with hex-based light overrides) while the plugin's tokens are dark-first.
 
 **Key Characteristics:**
 
@@ -92,31 +94,36 @@ The doc-website that documents this plugin is a separate design layer from the p
 - Zero shadows; depth via border stack and a one-step background tint
 - System font stack — no web fonts loaded anywhere in the plugin
 - State lives in the DOM (`aria-expanded`, `hidden` attribute), not in CSS class names
-- BEM selects visually (`.accordion__trigger`); data attributes select behaviorally (`[data-accordion-trigger]`) — the two never cross
+- BEM selects visually (`.kui-accordion__trigger`); data attributes select behaviorally (`[data-kui-accordion-trigger]`) — the two never cross
 - Doc-site is dark-mode-first; `<html data-theme="dark">` is set before first paint via inline `<script>`, with `localStorage` persistence and `prefers-color-scheme` fallback
 
 ## 2. Colors: The Functional Palette
 
-The palette is deliberately non-expressive. Five neutrals handle all surfaces, borders, and text. Active Blue is infrastructure, not brand.
+The palette is deliberately non-expressive. Dark cool-tinted neutrals (hue 255) handle all surfaces, borders, and text. The focus-ring blue is infrastructure, not brand.
 
-### Primary
+### Focus / Interactive
 
-- **Active Blue** (`#0070f3`): Used exclusively for focus rings (`outline: 2px solid`) and the rich variant's content-inner left border. Never a background fill. Never a button color. Its presence on screen means keyboard focus or structured editorial content; its absence is a guarantee of neither.
-- **Pressed Blue** (`#003d99`): Deeper value for high-contrast focus contexts. Passes WCAG AA against white at this depth.
+- **`$color-focus-ring`** (`oklch(57.311% 0.21458 258.263)`): Used exclusively for focus rings (`outline: 2px solid`) and the rich variant's content-inner left border. Never a background fill. Never a button color. Its presence on screen means keyboard focus or structured editorial content; its absence is a guarantee of neither.
+- **`$color-focus-ring-hover`** (`oklch(39.107% 0.16074 260.151)`): Deeper value for high-contrast focus and hover contexts.
+
+### Destructive
+
+- **`$color-destructive`** (`oklch(59.013% 0.20533 26.197)`): Semantic red for irreversible actions. Used as the destructive button fill and invalid-state border on form controls.
+- **`$color-destructive-hover`** (`oklch(52.301% 0.19793 27.578)`): Darker hover step for destructive elements.
 
 ### Neutral
 
-- **Shell White** (`#ffffff`): Default component background. All accordion headers and simple-variant panels start here.
-- **Quiet Paper** (`#f8f8f8`): Alternate surface. Trigger background on hover and when expanded; rich variant panel background. A 7-lightness-step delta from Shell White — enough to signal state change, invisible enough to not compete with content.
-- **Low Contrast Rule** (`#d4d4d4`): All borders. One weight, one color, used consistently as the accordion wrapper border and item dividers.
-- **Readout Black** (`#1a1a1a`): All body text and trigger labels. Near-black to avoid harshness without losing contrast.
-- **Mid Register** (`#6b6b6b`): Secondary text, muted states. The rich variant icon sits here at rest before shifting to Active Blue on expand.
+- **`$color-surface`** (`oklch(14% 0.003 255)`): Default component background. Near-black with a cool hue bias.
+- **`$color-surface-hover`** (`oklch(21% 0.004 255)`): Alternate surface. Trigger background on hover and rich variant panel background. One lightness step up from `$color-surface` — enough to signal state change without a chromatic shift.
+- **`$color-border`** (`oklch(28% 0.005 255)`): All borders. One weight, one value, used consistently as the component wrapper border and item dividers.
+- **`$color-text`** (`oklch(90% 0.004 255)`): All body text and trigger labels. Near-white for contrast against dark surfaces.
+- **`$color-text-muted`** (`oklch(54% 0.005 255)`): Secondary text, muted states. The rich variant icon sits here at rest before shifting to `$color-focus-ring` on expand.
 
 ### Named Rules
 
-**The Functional Accent Rule.** Active Blue (`#0070f3`) is accessibility infrastructure, not brand expression. It appears on focus rings and the rich variant's content-inner structural accent. It is never a background fill, never a call-to-action color, never decorative. If Active Blue is visible, something interactive is in focus or structured editorial content is being highlighted.
+**The Functional Accent Rule.** `$color-focus-ring` is accessibility infrastructure, not brand expression. It appears on focus rings and the rich variant's content-inner structural accent. It is never a background fill, never a call-to-action color, never decorative. If the focus-ring blue is visible, something interactive is in focus or structured editorial content is being highlighted.
 
-**The One-Step Tint Rule.** State change is expressed by shifting exactly one surface step: Shell White to Quiet Paper. No color-coded states, no traffic-light hues, no saturation shifts. Open is Quiet Paper. Closed is Shell White. That's the full color vocabulary of state.
+**The One-Step Tint Rule.** State change is expressed by shifting exactly one surface step: `$color-surface` to `$color-surface-hover`. No color-coded states, no traffic-light hues, no saturation shifts. Hovered/open is `$color-surface-hover`. Default is `$color-surface`. That's the full color vocabulary of state.
 
 ## 3. Typography
 
@@ -141,12 +148,12 @@ The palette is deliberately non-expressive. Five neutrals handle all surfaces, b
 
 Flat by design. No component in this library uses `box-shadow`. Depth is expressed through two mechanisms only:
 
-1. **Border stack:** The accordion wrapper carries a full-perimeter 1px `Low Contrast Rule` border with `border-radius-lg` (8px). Item separators use the same 1px rule internally. The border defines the component boundary without suggesting it floats above the page.
-2. **Surface tint:** The shift from Shell White (`#ffffff`) to Quiet Paper (`#f8f8f8`) on trigger hover and expand conveys state change. The delta is a 7-step lightness difference — perceptible without being chromatic.
+1. **Border stack:** The accordion wrapper carries a full-perimeter 1px `$color-border` border with `border-radius-lg` (8px). Item separators use the same 1px rule internally. The border defines the component boundary without suggesting it floats above the page.
+2. **Surface tint:** The shift from `$color-surface` (`oklch(14% 0.003 255)`) to `$color-surface-hover` (`oklch(21% 0.004 255)`) on trigger hover and expand conveys state change. A 7-step lightness delta — perceptible without being chromatic.
 
 ### Named Rules
 
-**The Flat-by-Default Rule.** No component in this library uses `box-shadow`, at rest, on hover, or as a focus indicator. Focus is a `2px solid #0070f3 outline` with `-2px` offset (inset — never shifts surrounding layout). State is a background tint. Shadow = not here.
+**The Flat-by-Default Rule.** No component in this library uses `box-shadow`, at rest, on hover, or as a focus indicator. Focus is a `2px solid $color-focus-ring outline` with `-2px` offset (inset — never shifts surrounding layout). State is a background tint. Shadow = not here.
 
 ## 5. Components
 
@@ -157,38 +164,38 @@ The accordion is the library's first block. Both variants share the same JS, the
 **Outer wrapper:**
 
 - No perimeter border — the accordion is an open list, not a boxed card
-- Items are separated by `border-b: 1px Low Contrast Rule`; the last item omits its bottom border (`:last-child { border-bottom: none }`)
+- Items are separated by `border-b: 1px $color-border`; the last item omits its bottom border (`:last-child { border-bottom: none }`)
 
 ---
 
-**Simple variant** (default — `accordion--simple` or no modifier):
+**Simple variant** (default — `kui-accordion--simple` or no modifier):
 
 - Trigger hover: label underlines (`text-decoration: underline; text-underline-offset: 3px`). No background shift.
-- Trigger label: Readout Black, 600 weight, 1rem, left-aligned
+- Trigger label: `$color-text`, 600 weight, 1rem, left-aligned
 - Trigger padding: 16px top/bottom, 24px left/right
 - Trigger chevron: CSS `::after` pseudo-element (SVG data URI, 1.25em square). Purely decorative; never a JS hook. Rotates `−180deg` when `aria-expanded="true"`, 220ms ease.
-- Focus ring: `outline: 2px solid #0070f3; outline-offset: −2px`. Inset, never shifting layout.
-- Panel: Shell White background; animated via CSS `grid-template-rows: 0fr → 1fr` (220ms ease). JS sets `data-state="open"|"closed"` on the panel; `hidden` attribute is only present before JS initialises (no-JS fallback). Panel inner wrapper (`__body-inner`) has `overflow: hidden; min-height: 0` to enable the grid collapse.
+- Focus ring: `outline: 2px solid $color-focus-ring; outline-offset: −2px`. Inset, never shifting layout.
+- Panel: `$color-surface` background; animated via CSS `grid-template-rows: 0fr → 1fr` (220ms ease). JS sets `data-state="open"|"closed"` on the panel; `hidden` attribute is only present before JS initialises (no-JS fallback). Panel inner wrapper (`__body-inner`) has `overflow: hidden; min-height: 0` to enable the grid collapse.
 - Padding: 16px top / 24px left / 24px right / 24px bottom.
 
 ---
 
-**Rich variant** (`.accordion--rich`):
+**Rich variant** (`.kui-accordion--rich`):
 
 Everything above, plus:
 
-- Optional image (`.accordion__image`): max 480px wide, 6px radius, `object-fit: cover`, `loading="lazy"`
-- Inline icon (`.accordion__icon`): SVG in the trigger, Mid Register at rest. On `[aria-expanded="true"]`: shifts to Active Blue and rotates 45deg, 220ms ease. Conveys "this has more content" without a second chevron.
-- Panel background: Quiet Paper (alt surface instead of Shell White)
-- Content inner (`.accordion__content-inner`): 3px left border in Active Blue, 8px top/bottom / 16px left/right padding. This is a structural editorial accent within the panel body — a reading-rail marker for rich formatted content, not a card decoration.
+- Optional image (`.kui-accordion__image`): max 480px wide, 6px radius, `object-fit: cover`, `loading="lazy"`
+- Inline icon (`.kui-accordion__icon`): SVG in the trigger, `$color-text-muted` at rest. On `[aria-expanded="true"]`: shifts to `$color-focus-ring` and rotates 45deg, 220ms ease. Conveys "this has more content" without a second chevron.
+- Panel background: `$color-surface-hover` (alt surface instead of `$color-surface`)
+- Content inner (`.kui-accordion__content-inner`): 3px left border in `$color-focus-ring`, 8px top/bottom / 16px left/right padding. This is a structural editorial accent within the panel body — a reading-rail marker for rich formatted content, not a card decoration.
 
 ---
 
 **JS API** (`accordion.js`):
 
 - Constructor: `new Accordion(rootElement, config?)`
-- Config keys: `triggerSelector` (default `[data-accordion-trigger]`), `panelSelector` (default `[data-accordion-panel]`), `allowMultipleOpen` (default: read from `data-accordion-multiple` attribute on root, else `false`), `onOpen(trigger, panel)`, `onClose(trigger, panel)`
-- `allowMultipleOpen` can also be toggled per-block in the Kirby panel (Settings tab). The block template writes `data-accordion-multiple` on the root element when enabled.
+- Config keys: `triggerSelector` (default `[data-kui-accordion-trigger]`), `panelSelector` (default `[data-kui-accordion-panel]`), `allowMultipleOpen` (default: read from `data-kui-accordion-multiple` attribute on root, else `false`), `onOpen(trigger, panel)`, `onClose(trigger, panel)`
+- `allowMultipleOpen` can also be toggled per-block in the Kirby panel (Settings tab). The block template writes `data-kui-accordion-multiple` on the root element when enabled.
 - JS sets `data-state="open"|"closed"` on each panel; CSS `grid-template-rows` transition reads this attribute. The `hidden` attribute is only present server-side before JS initialises; `init()` removes it and seeds the `data-state` values.
 - `destroy()` fully reverses initialization — removes all event listeners
 - CSS-agnostic: JS never reads or writes class names
@@ -197,10 +204,10 @@ Everything above, plus:
 
 | Attribute                | Element     | Role                        |
 | ------------------------ | ----------- | --------------------------- |
-| `data-accordion`         | wrapper     | JS initializes on this root |
-| `data-accordion-item`    | each item   | scopes open/close logic     |
-| `data-accordion-trigger` | `<button>`  | click target                |
-| `data-accordion-panel`   | body region | toggled with `hidden`       |
+| `data-kui-accordion`         | wrapper     | JS initializes on this root |
+| `data-kui-accordion-item`    | each item   | scopes open/close logic     |
+| `data-kui-accordion-trigger` | `<button>`  | click target                |
+| `data-kui-accordion-panel`   | body region | toggled with `hidden`       |
 
 **Aria wiring:**
 
@@ -247,13 +254,13 @@ The doc-site uses Tailwind v4's `@theme {}` block in `assets/css/main.css` to de
 
 /* Light mode — maps to plugin design tokens for visual continuity */
 :root[data-theme="light"] {
-	--color-doc-bg: #ffffff; /* Shell White */
-	--color-doc-surface: #f8f8f8; /* Quiet Paper */
+	--color-doc-bg: #ffffff;
+	--color-doc-surface: #f8f8f8;
 	--color-doc-surface-2: #f0f0f0;
-	--color-doc-border: #d4d4d4; /* Low Contrast Rule */
-	--color-doc-text: #1a1a1a; /* Readout Black */
-	--color-doc-muted: #6b6b6b; /* Mid Register */
-	--color-doc-accent: #0070f3; /* Active Blue */
+	--color-doc-border: #d4d4d4;
+	--color-doc-text: #1a1a1a;
+	--color-doc-muted: #6b6b6b;
+	--color-doc-accent: #0070f3;
 	--color-doc-accent-dim: #e5f0ff;
 	--color-doc-ring: #0070f3;
 	--color-doc-input: #d4d4d4;
@@ -347,13 +354,13 @@ Then use `page_children(section)` in Twig instead of `section.children.listed`.
 
 ### Do:
 
-- **Do** use BEM class names (`.accordion__trigger`) for all visual styling in CSS/SCSS — these are the styling surface.
-- **Do** use data attributes (`[data-accordion-trigger]`) exclusively for JavaScript selection — the two never cross.
+- **Do** use BEM class names (`.kui-accordion__trigger`) for all visual styling in CSS/SCSS — these are the styling surface.
+- **Do** use data attributes (`[data-kui-accordion-trigger]`) exclusively for JavaScript selection — the two never cross.
 - **Do** use `aria-expanded` + the `hidden` attribute for open/close state. State is semantic, not stylistic.
 - **Do** use the `@ui/` Twig namespace prefix for all block snippet includes (`{% embed '@ui/accordion_simple.twig' %}`).
 - **Do** use the Twig `{% embed %}` pattern with named blocks (`{% block item_header %}`) for variant-level overrides — zero code duplication.
 - **Do** define doc-site tokens as CSS custom properties in Tailwind v4's `@theme {}` block. Use `--color-doc-*` prefix to namespace them away from plugin tokens.
-- **Do** enqueue plugin CSS and JS through `snippets/ui-library/assets.php` — it handles dev (HMR) and production (manifest) automatically.
+- **Do** enqueue plugin CSS and JS through `snippets/kui/assets.php` — it handles dev (HMR) and production (manifest) automatically.
 - **Do** pass `onOpen` / `onClose` callbacks to extend accordion behavior without modifying core JS.
 - **Do** use `page_children(page)` custom Twig function when iterating over a Kirby page's children — `page.children` resolves the public `null` property, not the method.
 - **Do** set `data-theme` on `<html>` before first paint (inline `<script>` in `<head>`) to avoid flash of wrong theme. Read `localStorage('ui-lib-theme')` first, fall back to `prefers-color-scheme`.

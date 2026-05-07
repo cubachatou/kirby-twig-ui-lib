@@ -1,0 +1,102 @@
+{% extends '@docs/layout.twig' %}
+
+{% block page_title %}
+	{{ page.title }} — Kirby UI Library
+{% endblock %}
+{% block page_description %}
+	{{ page.excerpt }}
+{% endblock %}
+
+{% block content %}
+	{# ── 1. Component header ─────────────────────────────────────────── #}
+	<div class="mb-14">
+		<h1 class="mb-4 text-[2.25rem] font-extrabold leading-none tracking-tight text-doc-bright">{{ page.title }}</h1>
+		{% if page.intro.isNotEmpty %}
+			<div class="doc-intro">
+				{{ page.intro|raw }}
+			</div>
+		{% endif %}
+	</div>
+
+	{# ── 2. Usage — installation and basic usage blocks ──────────────── #}
+	{% if page.usage.isNotEmpty %}
+		<section id="usage" class="mb-14 scroll-mt-20">
+			<h2 class="doc-heading">Usage</h2>
+			{{ page.usage.toBlocks|raw }}
+		</section>
+	{% endif %}
+
+	{# ── 3. Examples — live select blocks from Kirby panel fields ─────── #}
+	<section id="examples" class="mb-14 scroll-mt-20">
+		<h2 class="doc-heading">Examples</h2>
+
+		{% if page.demo_default.isNotEmpty %}
+			<h3 class="doc-subheading">Default</h3>
+			<p class="doc-lead">
+				A basic select with a flat list of options and a placeholder.
+			</p>
+			<div class="doc-example">
+				<div class="doc-example-preview">
+					{{ page.demo_default.toBlocks|raw }}
+				</div>
+				{% if page.demo_default_code.isNotEmpty %}{{ page.demo_default_code.toBlocks|raw }}{% endif %}
+			</div>
+		{% endif %}
+
+		{% if page.demo_groups.isNotEmpty %}
+			<h3 class="doc-subheading">Groups</h3>
+			<p class="doc-lead">
+				Use the <em>Grouped</em> display style and set a <em>Group</em> name on each option to organise items under labelled headings with separators between groups.
+			</p>
+			<div class="doc-example">
+				<div class="doc-example-preview">
+					{{ page.demo_groups.toBlocks|raw }}
+				</div>
+				{% if page.demo_groups_code.isNotEmpty %}{{ page.demo_groups_code.toBlocks|raw }}{% endif %}
+			</div>
+		{% endif %}
+
+		{% if page.demo_scrollable.isNotEmpty %}
+			<h3 class="doc-subheading">Scrollable</h3>
+			<p class="doc-lead">
+				A select with many options scrolls within its popup automatically — no extra configuration required.
+			</p>
+			<div class="doc-example">
+				<div class="doc-example-preview">
+					{{ page.demo_scrollable.toBlocks|raw }}
+				</div>
+				{% if page.demo_scrollable_code.isNotEmpty %}{{ page.demo_scrollable_code.toBlocks|raw }}{% endif %}
+			</div>
+		{% endif %}
+
+		{% if page.demo_disabled.isNotEmpty %}
+			<h3 class="doc-subheading">Disabled</h3>
+			<p class="doc-lead">
+				Enable the <em>Disabled</em> setting to prevent the widget from being interacted with. Individual options can also be disabled per-item.
+			</p>
+			<div class="doc-example">
+				<div class="doc-example-preview">
+					{{ page.demo_disabled.toBlocks|raw }}
+				</div>
+				{% if page.demo_disabled_code.isNotEmpty %}{{ page.demo_disabled_code.toBlocks|raw }}{% endif %}
+			</div>
+		{% endif %}
+
+		{% if page.demo_invalid.isNotEmpty %}
+			<h3 class="doc-subheading">Invalid</h3>
+			<p class="doc-lead">
+				Enable the <em>Invalid</em> setting to show an error state. This sets <code>data-invalid</code> on the root element and <code>aria-invalid</code> on the trigger, which drives the red border in SCSS
+				and signals the error to assistive technology.
+			</p>
+			<div class="doc-example">
+				<div class="doc-example-preview">
+					{{ page.demo_invalid.toBlocks|raw }}
+				</div>
+				{% if page.demo_invalid_code.isNotEmpty %}{{ page.demo_invalid_code.toBlocks|raw }}{% endif %}
+			</div>
+		{% endif %}
+	</section>
+
+	{# ── 4. Body blocks — edit content in the Kirby panel ─────────────── #}
+	{{ page.body.toBlocks|raw }}
+{% endblock %}

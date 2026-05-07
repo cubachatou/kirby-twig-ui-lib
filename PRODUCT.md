@@ -56,7 +56,7 @@ WCAG 2.1 AA minimum. The plugin already implements:
 
 - `aria-expanded`, `aria-controls`, `role="region"` on accordion panels
 - `hidden` attribute for panel visibility (CSS-independent state)
-- Visible focus rings using `$color-focus-ring` (#0070f3) and `$color-focus-ring-alt` (#003d99) tokens
+- Visible focus rings using `$color-focus-ring` (`oklch(57.311% 0.21458 258.263)`) and `$color-focus-ring-hover` (`oklch(39.107% 0.16074 260.151)`) tokens
 - `data-*` hook pattern that does not interfere with AT (assistive technology)
 
 The doc site must meet the same standard as the components it documents.

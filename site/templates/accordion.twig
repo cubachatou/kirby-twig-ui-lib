@@ -36,8 +36,11 @@
 			<p class="doc-lead">
 				A standard accordion — one item open at a time.
 			</p>
-			<div class="doc-demo">
-				{{ page.demo.toBlocks|raw }}
+			<div class="doc-example">
+				<div class="doc-example-preview">
+					{{ page.demo.toBlocks|raw }}
+				</div>
+				{% if page.demo_code.isNotEmpty %}{{ page.demo_code.toBlocks|raw }}{% endif %}
 			</div>
 		{% endif %}
 
@@ -46,8 +49,11 @@
 			<p class="doc-lead">
 				Use the <em>Allow Multiple Open</em> toggle to allow multiple items to be open at the same time.
 			</p>
-			<div class="doc-demo">
-				{{ page.demo_multiple.toBlocks|raw }}
+			<div class="doc-example">
+				<div class="doc-example-preview">
+					{{ page.demo_multiple.toBlocks|raw }}
+				</div>
+				{% if page.demo_multiple_code.isNotEmpty %}{{ page.demo_multiple_code.toBlocks|raw }}{% endif %}
 			</div>
 		{% endif %}
 
@@ -56,8 +62,11 @@
 			<p class="doc-lead">
 				Use the <em>Disabled</em> toggle on an item to prevent it from being expanded.
 			</p>
-			<div class="doc-demo">
-				{{ page.demo_disabled.toBlocks|raw }}
+			<div class="doc-example">
+				<div class="doc-example-preview">
+					{{ page.demo_disabled.toBlocks|raw }}
+				</div>
+				{% if page.demo_disabled_code.isNotEmpty %}{{ page.demo_disabled_code.toBlocks|raw }}{% endif %}
 			</div>
 		{% endif %}
 
@@ -66,8 +75,11 @@
 			<p class="doc-lead">
 				Add <code>accordion--bordered</code> via the CSS Classes field to wrap the component in a border.
 			</p>
-			<div class="doc-demo">
-				{{ page.demo_bordered.toBlocks|raw }}
+			<div class="doc-example">
+				<div class="doc-example-preview">
+					{{ page.demo_bordered.toBlocks|raw }}
+				</div>
+				{% if page.demo_bordered_code.isNotEmpty %}{{ page.demo_bordered_code.toBlocks|raw }}{% endif %}
 			</div>
 		{% endif %}
 	</section>

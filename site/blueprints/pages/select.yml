@@ -1,5 +1,5 @@
-title: Accordion
-icon: list
+title: Select
+icon: angle-down
 
 sections:
   content:
@@ -21,6 +21,7 @@ sections:
           - italic
           - code
           - link
+
       usage:
         type: blocks
         label: Usage
@@ -31,30 +32,44 @@ sections:
           - code
           - list
 
-      demo:
+      demo_default:
         type: blocks
-        label: "Example — Basic (live preview)"
-        help: Single-open accordion. Renders live on the doc page.
+        label: "Example — Default (live preview)"
+        help: A basic select with a flat list of options.
         fieldsets:
-          - accordion
+          - select
 
-      demo_code:
+      demo_default_code:
         type: blocks
-        label: "Example — Basic (usage code)"
+        label: "Example — Default (usage code)"
         help: Code snippet shown below the live preview.
         fieldsets:
           - code
 
-      demo_multiple:
+      demo_groups:
         type: blocks
-        label: "Example — Multiple (live preview)"
-        help: Accordion with Allow Multiple Open enabled.
+        label: "Example — Groups (live preview)"
+        help: Select with grouped options using SelectGroup, SelectLabel, and SelectSeparator.
         fieldsets:
-          - accordion
+          - select
 
-      demo_multiple_code:
+      demo_groups_code:
         type: blocks
-        label: "Example — Multiple (usage code)"
+        label: "Example — Groups (usage code)"
+        help: Code snippet shown below the live preview.
+        fieldsets:
+          - code
+
+      demo_scrollable:
+        type: blocks
+        label: "Example — Scrollable (live preview)"
+        help: A select with many items that scrolls within the popup.
+        fieldsets:
+          - select
+
+      demo_scrollable_code:
+        type: blocks
+        label: "Example — Scrollable (usage code)"
         help: Code snippet shown below the live preview.
         fieldsets:
           - code
@@ -62,9 +77,9 @@ sections:
       demo_disabled:
         type: blocks
         label: "Example — Disabled (live preview)"
-        help: Accordion containing a disabled item.
+        help: Select with the Disabled setting enabled.
         fieldsets:
-          - accordion
+          - select
 
       demo_disabled_code:
         type: blocks
@@ -73,16 +88,16 @@ sections:
         fieldsets:
           - code
 
-      demo_bordered:
+      demo_invalid:
         type: blocks
-        label: "Example — Borders (live preview)"
-        help: Accordion with the accordion--bordered CSS modifier.
+        label: "Example — Invalid (live preview)"
+        help: Select with the Invalid setting enabled, showing the error state.
         fieldsets:
-          - accordion
+          - select
 
-      demo_bordered_code:
+      demo_invalid_code:
         type: blocks
-        label: "Example — Borders (usage code)"
+        label: "Example — Invalid (usage code)"
         help: Code snippet shown below the live preview.
         fieldsets:
           - code
@@ -90,7 +105,7 @@ sections:
       body:
         type: blocks
         label: Body
-        help: Add sections below the examples (Installation, Fields, JS API, Accessibility…)
+        help: Add sections below the examples (Extending, API Reference, Blueprint fields, Accessibility…)
         fieldsets:
           - heading
           - text

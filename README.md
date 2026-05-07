@@ -1,12 +1,12 @@
 # kirby-twig-ui-lib — Doc Site
 
-Development environment and documentation website for the [kirby-ui-library](site/plugins/ui-library/README.md) plugin. Built on Kirby CMS 5 with Twig templating, Tailwind CSS v4, and a dual Vite setup.
+Development environment and documentation website for the [kirby-kui](site/plugins/kui/README.md) plugin. Built on Kirby CMS 5 with Twig templating, Tailwind CSS v4, and a dual Vite setup.
 
 ## What's in this repo
 
 | Path | Purpose |
 |---|---|
-| `site/plugins/ui-library/` | The plugin itself (git submodule) |
+| `site/plugins/kui/` | The plugin itself (git submodule) |
 | `assets/` | Doc-site source files (JS, SCSS, CSS) |
 | `site/templates/` | Kirby/Twig page templates |
 | `site/blueprints/` | Panel page and block blueprints |
@@ -52,7 +52,7 @@ npm install
 ### 4. Install plugin Node dependencies
 
 \`\`\`bash
-cd site/plugins/ui-library
+cd site/plugins/kui
 npm install
 cd ../../..
 \`\`\`
@@ -72,7 +72,7 @@ This runs the PHP built-in server on `http://localhost:8000` and the doc-site Vi
 **Terminal 2 — Plugin Vite (HMR for component styles and JS):**
 
 \`\`\`bash
-cd site/plugins/ui-library
+cd site/plugins/kui
 npm run dev     # → http://localhost:5174
 \`\`\`
 
@@ -90,10 +90,10 @@ npm run dev     # → http://localhost:5174
 npm run build
 
 # Build plugin assets (from inside the plugin)
-cd site/plugins/ui-library && npm run build
+cd site/plugins/kui && npm run build
 \`\`\`
 
-Doc-site output goes to `assets/dist/`. Plugin output goes to `site/plugins/ui-library/assets/` (self-contained, served by Kirby's media pipeline).
+Doc-site output goes to `assets/dist/`. Plugin output goes to `site/plugins/kui/assets/` (self-contained, served by Kirby's media pipeline).
 
 ## Project structure
 
@@ -108,7 +108,7 @@ kirby-twig-ui-lib/
 │   ├── blueprints/           # Page blueprints for the Panel
 │   ├── config/config.php     # Kirby config (url, Twig namespaces, viteAsset)
 │   ├── plugins/
-│   │   └── ui-library/       # ← git submodule (kirby-ui-library plugin)
+│   │   └── kui/       # ← git submodule (kirby-kui plugin)
 │   └── templates/
 │       └── default.twig      # Default page template
 ├── vite.config.js            # Doc-site Vite (port 5173, Tailwind v4)
@@ -124,7 +124,7 @@ Port 5173 — Doc site
   assets/css/main.css              Tailwind v4 processed by @tailwindcss/vite
 
 Port 5174 — UI Library plugin
-  src/js/main.js  ────────────►  site/plugins/ui-library/assets/  (production)
+  src/js/main.js  ────────────►  site/plugins/kui/assets/  (production)
   src/scss/main.scss              Served via Kirby media pipeline
 \`\`\`
 
@@ -138,7 +138,7 @@ Both Vite servers run simultaneously in development; the Twig templates request 
 
 ## Plugin documentation
 
-See [site/plugins/ui-library/README.md](site/plugins/ui-library/README.md) for full plugin API, component usage, and how to add new blocks.
+See [site/plugins/kui/README.md](site/plugins/kui/README.md) for full plugin API, component usage, and how to add new blocks.
 
 ## License
 

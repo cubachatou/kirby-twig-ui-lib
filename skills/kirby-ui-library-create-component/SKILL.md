@@ -1,5 +1,5 @@
 ---
-name: kirby-ui-library-create-component
+name: kirby-kui-create-component
 description: >
   Scaffold a new UI component in the kirby-twig-ui-lib plugin following the
   established accordion pattern. Use whenever a developer asks to "add a new
@@ -10,9 +10,9 @@ description: >
   this skill to scaffold all required files correctly.
 ---
 
-# Create Component — kirby-ui-library
+# Create Component — KUI
 
-Scaffold a complete new Kirby block component for `site/plugins/ui-library/`
+Scaffold a complete new Kirby block component for `site/plugins/kui/`
 following the inversion-of-dependency pattern established by the accordion:
 stable JS and SCSS base, multiple Twig variants overridable via `{% embed %}`,
 JS bound exclusively to `data-*` attributes.
@@ -40,7 +40,7 @@ in `index.php`. Work through them in order.
 
 ### 1. Blueprint — block definition
 
-**Path:** `site/plugins/ui-library/blueprints/blocks/{{SLUG}}.yml`
+**Path:** `site/plugins/kui/blueprints/blocks/{{SLUG}}.yml`
 
 ```yaml
 title: {{LABEL}}
@@ -96,7 +96,7 @@ tabs:
 
 ### 2. Base Twig template (internal partial)
 
-**Path:** `site/plugins/ui-library/snippets/blocks/_{{SLUG}}_base.twig`
+**Path:** `site/plugins/kui/snippets/blocks/_{{SLUG}}_base.twig`
 
 ```twig
 {#
@@ -112,34 +112,34 @@ tabs:
     {% block item_content %} — Panel/body content.
 
   JS hook attributes (never rename or remove):
-    data-{{SLUG}}          — Root element.
-    data-{{SLUG}}-item     — Individual item wrapper.
-    data-{{SLUG}}-trigger  — The interactive element (<button> etc.).
-    data-{{SLUG}}-panel    — The collapsible/dynamic region.
+    data-kui-{{SLUG}}          — Root element.
+    data-kui-{{SLUG}}-item     — Individual item wrapper.
+    data-kui-{{SLUG}}-trigger  — The interactive element (<button> etc.).
+    data-kui-{{SLUG}}-panel    — The collapsible/dynamic region.
 #}
 
 {% set _id    = wrapper_id  is defined and wrapper_id  ? wrapper_id  : '{{SLUG}}' %}
 {% set _extra = extra_class is defined and extra_class ? ' ' ~ extra_class : '' %}
 
 <div
-  class="{{SLUG}}{{ _extra }}"
+  class="kui-{{SLUG}}{{ _extra }}"
   id="{{ _id }}"
-  data-{{SLUG}}
+  data-kui-{{SLUG}}
 >
   {% for item in items %}
     {% set trigger_id = _id ~ '__trigger-' ~ loop.index %}
     {% set panel_id   = _id ~ '__panel-'   ~ loop.index %}
 
-    <div class="{{SLUG}}__item" data-{{SLUG}}-item>
+    <div class="kui-{{SLUG}}__item" data-kui-{{SLUG}}-item>
 
-      <div class="{{SLUG}}__header">
+      <div class="kui-{{SLUG}}__header">
         <button
-          class="{{SLUG}}__trigger"
+          class="kui-{{SLUG}}__trigger"
           id="{{ trigger_id }}"
           type="button"
           aria-expanded="{{ loop.first ? 'true' : 'false' }}"
           aria-controls="{{ panel_id }}"
-          data-{{SLUG}}-trigger
+          data-kui-{{SLUG}}-trigger
         >
           {% block item_header %}
             {{ item.title.value }}
@@ -148,15 +148,15 @@ tabs:
       </div>
 
       <div
-        class="{{SLUG}}__body"
+        class="kui-{{SLUG}}__body"
         id="{{ panel_id }}"
         role="region"
         aria-labelledby="{{ trigger_id }}"
         {% if not loop.first %}hidden{% endif %}
-        data-{{SLUG}}-panel
+        data-kui-{{SLUG}}-panel
       >
         {% block item_content %}
-          <div class="{{SLUG}}__content">
+          <div class="kui-{{SLUG}}__content">
             {{ item.text.kirbytext | raw }}
           </div>
         {% endblock %}
@@ -170,14 +170,14 @@ tabs:
 **Rules:**
 
 - Use `item.text` (or your chosen field name) — never `item.content`.
-- All JS hooks are `data-{{SLUG}}-*` — never CSS classes.
+- All JS hooks are `data-kui-{{SLUG}}-*` — never CSS classes.
 - Keep aria attributes: `aria-expanded`, `aria-controls`, `role="region"`, `aria-labelledby`, `hidden`.
 
 ---
 
 ### 3. Default variant template
 
-**Path:** `site/plugins/ui-library/snippets/blocks/{{SLUG}}_{{FIRST_VARIANT}}.twig`
+**Path:** `site/plugins/kui/snippets/blocks/{{SLUG}}_{{FIRST_VARIANT}}.twig`
 
 ```twig
 {#
@@ -202,7 +202,7 @@ tabs:
 		{{- item.title.value -}}
 	{% endblock %}
 	{% block item_content %}
-		<div class="{{ SLUG }}__content">
+		<div class="kui-{{ SLUG }}__content">
 			{{ item.text.kirbytext|raw }}
 		</div>
 	{% endblock %}
@@ -215,7 +215,7 @@ tabs:
 
 For each extra variant (e.g., `with-icons`):
 
-**Path:** `site/plugins/ui-library/snippets/blocks/{{SLUG}}_{{VARIANT}}.twig`
+**Path:** `site/plugins/kui/snippets/blocks/{{SLUG}}_{{VARIANT}}.twig`
 
 Same structure as the default variant — only the block bodies differ. Add BEM
 modifier classes to `extra_class` if needed:
@@ -225,7 +225,7 @@ modifier classes to `extra_class` if needed:
 	with {
 		items: block.items.toStructure(),
 		wrapper_id: _wrapper_id,
-		extra_class: _extra_class ~ ' {{SLUG}}--{{VARIANT}}'
+		extra_class: _extra_class ~ ' kui-{{SLUG}}--{{VARIANT}}'
 	}
 %}
 	{% block item_header %}
@@ -241,7 +241,7 @@ modifier classes to `extra_class` if needed:
 
 ### 5. Dispatcher template
 
-**Path:** `site/plugins/ui-library/snippets/blocks/{{SLUG}}.twig`
+**Path:** `site/plugins/kui/snippets/blocks/{{SLUG}}.twig`
 
 ```twig
 {#
@@ -268,31 +268,31 @@ Adjust the branches to match your actual variant count. Use `{% include %}` (not
 
 ### 6. SCSS partial
 
-**Path:** `site/plugins/ui-library/src/scss/_{{SLUG}}.scss`
+**Path:** `site/plugins/kui/src/scss/_{{SLUG}}.scss`
 
 ```scss
 // =============================================================================
 // _{{SLUG}}.scss — BEM styles for the {{LABEL}} component.
 //
 // Structure mirrors the HTML:
-//   .{{SLUG}}
-//   └─ .{{SLUG}}__item         (data-{{SLUG}}-item)
-//      ├─ .{{SLUG}}__header
-//      │  └─ .{{SLUG}}__trigger  (data-{{SLUG}}-trigger, <button>)
-//      └─ .{{SLUG}}__body      (data-{{SLUG}}-panel)
-//         └─ .{{SLUG}}__content
+//   .kui-{{SLUG}}
+//   └─ .kui-{{SLUG}}__item         (data-kui-{{SLUG}}-item)
+//      ├─ .kui-{{SLUG}}__header
+//      │  └─ .kui-{{SLUG}}__trigger  (data-kui-{{SLUG}}-trigger, <button>)
+//      └─ .kui-{{SLUG}}__body      (data-kui-{{SLUG}}-panel)
+//         └─ .kui-{{SLUG}}__content
 // =============================================================================
 
 @use 'tokens' as *;
 
 // ── Block ─────────────────────────────────────────────────────────────────────
-.{{SLUG}} {
+.kui-{{SLUG}} {
   width: 100%;
   font-family: $font-family-base;
 }
 
 // ── Item ──────────────────────────────────────────────────────────────────────
-.{{SLUG}}__item {
+.kui-{{SLUG}}__item {
   border-bottom: $border-width solid $color-border;
 
   &:last-child {
@@ -301,12 +301,12 @@ Adjust the branches to match your actual variant count. Use `{% include %}` (not
 }
 
 // ── Header / Trigger ──────────────────────────────────────────────────────────
-.{{SLUG}}__header {
+.kui-{{SLUG}}__header {
   display: flex;
   align-items: center;
 }
 
-.{{SLUG}}__trigger {
+.kui-{{SLUG}}__trigger {
   display: flex;
   align-items: center;
   width: 100%;
@@ -321,7 +321,7 @@ Adjust the branches to match your actual variant count. Use `{% include %}` (not
   transition: background-color $transition-fast;
 
   &:hover {
-    background-color: $color-surface-alt;
+    background-color: $color-surface-hover;
   }
 
   &:focus-visible {
@@ -331,7 +331,7 @@ Adjust the branches to match your actual variant count. Use `{% include %}` (not
 }
 
 // ── Body / Panel ──────────────────────────────────────────────────────────────
-.{{SLUG}}__body {
+.kui-{{SLUG}}__body {
   overflow: hidden;
 
   // Hidden state — driven by the `hidden` attribute toggled by JS.
@@ -340,7 +340,7 @@ Adjust the branches to match your actual variant count. Use `{% include %}` (not
   }
 }
 
-.{{SLUG}}__content {
+.kui-{{SLUG}}__content {
   padding: $space-md $space-lg $space-lg;
   color: $color-text;
   line-height: $line-height-base;
@@ -357,7 +357,7 @@ Adjust the branches to match your actual variant count. Use `{% include %}` (not
 
 ### 7. JavaScript module
 
-**Path:** `site/plugins/ui-library/src/js/{{SLUG}}.js`
+**Path:** `site/plugins/kui/src/js/{{SLUG}}.js`
 
 ```js
 /**
@@ -368,15 +368,15 @@ Adjust the branches to match your actual variant count. Use `{% include %}` (not
  * without modifying this file.
  *
  * Required HTML attributes:
- *   data-{{SLUG}}          — root element
- *   data-{{SLUG}}-trigger  — <button> with aria-expanded + aria-controls
- *   data-{{SLUG}}-panel    — collapsible region, toggled via `hidden`
+ *   data-kui-{{SLUG}}          — root element
+ *   data-kui-{{SLUG}}-trigger  — <button> with aria-expanded + aria-controls
+ *   data-kui-{{SLUG}}-panel    — collapsible region, toggled via `hidden`
  */
 
 /**
  * @typedef {Object} {{LABEL_PASCAL}}Config
- * @property {string}   [triggerSelector='[data-{{SLUG}}-trigger]']
- * @property {string}   [panelSelector='[data-{{SLUG}}-panel]']
+ * @property {string}   [triggerSelector='[data-kui-{{SLUG}}-trigger]']
+ * @property {string}   [panelSelector='[data-kui-{{SLUG}}-panel]']
  * @property {boolean}  [allowMultipleOpen=false]
  * @property {Function} [onOpen]   Called after a panel opens. (trigger, panel) => void
  * @property {Function} [onClose]  Called after a panel closes. (trigger, panel) => void
@@ -390,8 +390,8 @@ export class {{LABEL_PASCAL}} {
     constructor(root, config = {}) {
         this.root = root;
         this.config = {
-            triggerSelector: '[data-{{SLUG}}-trigger]',
-            panelSelector:   '[data-{{SLUG}}-panel]',
+            triggerSelector: '[data-kui-{{SLUG}}-trigger]',
+            panelSelector:   '[data-kui-{{SLUG}}-panel]',
             allowMultipleOpen: false,
             onOpen:  null,
             onClose: null,
@@ -464,12 +464,12 @@ export class {{LABEL_PASCAL}} {
 }
 
 /**
- * Initialize all [data-{{SLUG}}] roots on the page.
+ * Initialize all [data-kui-{{SLUG}}] roots on the page.
  * @param {{{LABEL_PASCAL}}Config} [config]
  * @returns {{{LABEL_PASCAL}}[]}
  */
 export function init{{LABEL_PASCAL}}s(config = {}) {
-    return Array.from(document.querySelectorAll('[data-{{SLUG}}]')).map(
+    return Array.from(document.querySelectorAll('[data-kui-{{SLUG}}]')).map(
         (root) => new {{LABEL_PASCAL}}(root, config).init()
     );
 }
@@ -500,7 +500,7 @@ document.addEventListener('DOMContentLoaded', () => {
 ### 9. Register in `index.php`
 
 Add entries to the `'blueprints'` and `'snippets'` arrays in
-`site/plugins/ui-library/index.php`:
+`site/plugins/kui/index.php`:
 
 ```php
 // In 'blueprints':
@@ -518,12 +518,14 @@ Add entries to the `'blueprints'` and `'snippets'` arrays in
 ## Checklist before finishing
 
 - [ ] No structure field is named `content` (use `text`, `body`, `description`, …)
-- [ ] All JS hooks are `data-{{SLUG}}-*` attributes — no CSS class selectors in JS
+- [ ] All JS hooks are `data-kui-{{SLUG}}-*` attributes — no CSS class selectors in JS
 - [ ] All Twig cross-file references use `@ui/` namespace, not relative paths
 - [ ] SCSS imports `tokens` with `@use 'tokens' as *`
 - [ ] Blueprint tabs use `fields:` directly — no `sections:` wrapper
 - [ ] Both new keys are added to `index.php` blueprints AND snippets arrays
 - [ ] `main.scss` and `main.js` import/call the new component
+- [ ] `content/2_components/N_{{SLUG}}/{{SLUG}}.txt` created with realistic demo blocks and `Template: {{SLUG}}` + `Uuid: doc-{{SLUG}}`
+- [ ] Kirby cache cleared after creating the content file (`find site/cache -name "*.cache" -delete`)
 
 ---
 
@@ -533,13 +535,13 @@ When in doubt, look at the accordion implementation as the ground truth:
 
 | Role               | File                                                            |
 | ------------------ | --------------------------------------------------------------- |
-| Blueprint          | `site/plugins/ui-library/blueprints/blocks/accordion.yml`       |
-| Base template      | `site/plugins/ui-library/snippets/blocks/_accordion_base.twig`  |
-| Default variant    | `site/plugins/ui-library/snippets/blocks/accordion_simple.twig` |
-| Dispatcher         | `site/plugins/ui-library/snippets/blocks/accordion.twig`        |
-| SCSS               | `site/plugins/ui-library/src/scss/_accordion.scss`              |
-| JS module          | `site/plugins/ui-library/src/js/accordion.js`                   |
-| Registration       | `site/plugins/ui-library/index.php`                             |
+| Blueprint          | `site/plugins/kui/blueprints/blocks/accordion.yml`       |
+| Base template      | `site/plugins/kui/snippets/blocks/_accordion_base.twig`  |
+| Default variant    | `site/plugins/kui/snippets/blocks/accordion_simple.twig` |
+| Dispatcher         | `site/plugins/kui/snippets/blocks/accordion.twig`        |
+| SCSS               | `site/plugins/kui/src/scss/_accordion.scss`              |
+| JS module          | `site/plugins/kui/src/js/accordion.js`                   |
+| Registration       | `site/plugins/kui/index.php`                             |
 | Doc page blueprint | `site/blueprints/pages/accordion.yml`                           |
 | Doc page template  | `site/templates/accordion.twig`                                 |
 | Doc page content   | `content/2_components/1_accordion/accordion.txt`                |
@@ -705,5 +707,55 @@ When editing body blocks in the panel, follow this order:
 - **Strategy 4: Combine embed and Stimulus** — use `{% embed %}` to change structure AND a Stimulus controller for new behaviour in the same block
 
 Components/snippets with **no JS module** must not include these strategies.
+
+### Content file
+
+**Path:** `content/2_components/N_{{SLUG}}/{{SLUG}}.txt`
+
+Replace `N` with the next sequential number in the `content/2_components/` folder (list the folder to find it). This file is the flat-file content Kirby reads to render the doc page — **without it the page does not exist and will not appear in the site or panel**.
+
+Format rules:
+
+- Fields are separated by `\n\n----\n\n` (a blank line, four dashes, a blank line).
+- Each block field value is a JSON array on a **single line** — no embedded newlines.
+- Block objects: `{"content":{...},"id":"unique-id","isHidden":false,"type":"{{SLUG}}"}`.
+- Toggle values inside block content JSON: `"true"` or `"false"` (strings, not booleans).
+- Always include `Template: {{SLUG}}` and `Uuid: doc-{{SLUG}}` at the end.
+
+Minimal required fields (add `demo_*` for each example defined in the blueprint):
+
+```
+Title: {{LABEL}}
+
+----
+
+Excerpt: One-line description shown in search results and meta.
+
+----
+
+Intro: <p>Lead paragraph shown beneath the page title.</p>
+
+----
+
+Usage: [{"content":{"text":"<p>Requires the plugin installed and the <code>@ui</code> Twig namespace registered — see the <a href=\"/getting-started/installation\">Installation guide</a>.</p>"},"id":"{{SLUG}}-usage-note","isHidden":false,"type":"text"},{"content":{"code":"fields:\n  blocks:\n    type: blocks\n    fieldsets:\n      - {{SLUG}}","language":"yaml"},"id":"{{SLUG}}-usage-bp","isHidden":false,"type":"code"},{"content":{"code":"{{ page.blocks.toBlocks|raw }}","language":"twig"},"id":"{{SLUG}}-usage-render","isHidden":false,"type":"code"}]
+
+----
+
+Demo: [{"content":{...block fields...},"id":"{{SLUG}}-demo-basic","isHidden":false,"type":"{{SLUG}}"}]
+
+----
+
+Body: []
+
+----
+
+Template: {{SLUG}}
+
+----
+
+Uuid: doc-{{SLUG}}
+```
+
+For the `demo_*` fields, pre-populate each with a realistic block that shows that example variant. Use the accordion's `content/2_components/1_accordion/accordion.txt` as the canonical format reference.
 
 ---

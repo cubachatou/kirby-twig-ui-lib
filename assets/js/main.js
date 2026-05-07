@@ -219,10 +219,10 @@ import "../css/main.css";
 		// Skip code blocks inside the hero demo
 		if (codeBlock.closest(".doc-demo")) return;
 
-		// Walk backwards from the code block collecting consecutive .button siblings
+		// Walk backwards from the code block collecting consecutive .kui-button siblings
 		var buttons = [];
 		var el = codeBlock.previousElementSibling;
-		while (el && el.classList.contains("button")) {
+		while (el && el.classList.contains("kui-button")) {
 			buttons.unshift(el); // prepend to preserve DOM order
 			el = el.previousElementSibling;
 		}

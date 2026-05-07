@@ -24,11 +24,11 @@ return [
     ],
 
     // Register the @ui Twig namespace so that any template can reference
-    // ui-library snippets as @ui/filename.twig — mirrors the @ui Vite alias
-    // declared in site/plugins/ui-library/vite.config.js.
+    // kui snippets as @ui/filename.twig — mirrors the @ui Vite alias
+    // declared in site/plugins/kui/vite.config.js.
     // Register the @docs namespace for shared doc-site layout snippets.
     'wearejust.twig.namespaces' => [
-        'ui'   => __DIR__ . '/../plugins/ui-library/snippets/blocks',
+        'ui'   => __DIR__ . '/../plugins/kui/snippets/blocks',
         'docs' => __DIR__ . '/../snippets/docs',
     ],
 ];
