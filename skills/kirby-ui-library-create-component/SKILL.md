@@ -533,8 +533,8 @@ Add entries to the `'blueprints'` and `'snippets'` arrays in
 
 When in doubt, look at the accordion implementation as the ground truth:
 
-| Role               | File                                                            |
-| ------------------ | --------------------------------------------------------------- |
+| Role               | File                                                     |
+| ------------------ | -------------------------------------------------------- |
 | Blueprint          | `site/plugins/kui/blueprints/blocks/accordion.yml`       |
 | Base template      | `site/plugins/kui/snippets/blocks/_accordion_base.twig`  |
 | Default variant    | `site/plugins/kui/snippets/blocks/accordion_simple.twig` |
@@ -542,9 +542,9 @@ When in doubt, look at the accordion implementation as the ground truth:
 | SCSS               | `site/plugins/kui/src/scss/_accordion.scss`              |
 | JS module          | `site/plugins/kui/src/js/accordion.js`                   |
 | Registration       | `site/plugins/kui/index.php`                             |
-| Doc page blueprint | `site/blueprints/pages/accordion.yml`                           |
-| Doc page template  | `site/templates/accordion.twig`                                 |
-| Doc page content   | `content/2_components/1_accordion/accordion.txt`                |
+| Doc page blueprint | `site/blueprints/pages/accordion.yml`                    |
+| Doc page template  | `site/templates/accordion.twig`                          |
+| Doc page content   | `content/2_components/1_accordion/accordion.txt`         |
 
 ---
 
