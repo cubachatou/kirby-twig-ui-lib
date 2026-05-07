@@ -1,0 +1,31 @@
+{% extends '@docs/layout.twig' %}
+
+{% block page_title %}
+	{{ page.title }} — Kirby UI Library
+{% endblock %}
+{% block page_description %}
+	{{ page.excerpt }}
+{% endblock %}
+
+{% block content %}
+	{# ── 1. Component header — sourced from Kirby panel fields ──────── #}
+	<div class="mb-14">
+		<h1 class="mb-4 text-[2.25rem] font-extrabold leading-none tracking-tight text-doc-bright">{{ page.title }}</h1>
+		{% if page.intro.isNotEmpty %}
+			<div class="doc-intro">
+				{{ page.intro|raw }}
+			</div>
+		{% endif %}
+	</div>
+
+	{# ── 2. Usage — short include snippet ──────────────────────────── #}
+	{% if page.usage.isNotEmpty %}
+		<section id="usage" class="mb-14 scroll-mt-20">
+			<h2 class="doc-heading">Usage</h2>
+			{{ page.usage.toBlocks|raw }}
+		</section>
+	{% endif %}
+
+	{# ── 3. Body blocks — Examples, Extending, API Reference, A11y ─── #}
+	{{ page.body.toBlocks|raw }}
+{% endblock %}

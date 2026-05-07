@@ -14,8 +14,6 @@ columns:
           blocks:
             type: blocks
             label: Content Blocks
-            fieldsets:
-              - accordion
   sidebar:
     width: 1/3
     sections:

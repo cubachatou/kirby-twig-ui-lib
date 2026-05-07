@@ -1,0 +1,77 @@
+{% extends '@docs/layout.twig' %}
+
+{% block page_title %}
+	{{ page.title }} — Kirby UI Library
+{% endblock %}
+{% block page_description %}
+	{{ page.excerpt }}
+{% endblock %}
+
+{% block content %}
+	{# ── 1. Component header — sourced from Kirby panel fields ──────── #}
+	<div class="mb-14">
+		<h1 class="mb-4 text-[2.25rem] font-extrabold leading-none tracking-tight text-doc-bright">{{ page.title }}</h1>
+		{% if page.intro.isNotEmpty %}
+			<div class="doc-intro">
+				{{ page.intro|raw }}
+			</div>
+		{% endif %}
+	</div>
+
+	{# ── 2. Usage — installation and basic usage blocks ─────────────── #}
+	{% if page.usage.isNotEmpty %}
+		<section id="usage" class="mb-14 scroll-mt-20">
+			<h2 class="doc-heading">Usage</h2>
+			{{ page.usage.toBlocks|raw }}
+		</section>
+	{% endif %}
+
+	{# ── 3. Examples — live accordion blocks from Kirby panel fields ─── #}
+
+	<section id="examples" class="mb-14 scroll-mt-20">
+		<h2 class="doc-heading">Examples</h2>
+
+		{% if page.demo.isNotEmpty %}
+			<h3 class="doc-subheading">Basic</h3>
+			<p class="doc-lead">
+				A standard accordion — one item open at a time.
+			</p>
+			<div class="doc-demo">
+				{{ page.demo.toBlocks|raw }}
+			</div>
+		{% endif %}
+
+		{% if page.demo_multiple.isNotEmpty %}
+			<h3 class="doc-subheading">Multiple</h3>
+			<p class="doc-lead">
+				Use the <em>Allow Multiple Open</em> toggle to allow multiple items to be open at the same time.
+			</p>
+			<div class="doc-demo">
+				{{ page.demo_multiple.toBlocks|raw }}
+			</div>
+		{% endif %}
+
+		{% if page.demo_disabled.isNotEmpty %}
+			<h3 class="doc-subheading">Disabled</h3>
+			<p class="doc-lead">
+				Use the <em>Disabled</em> toggle on an item to prevent it from being expanded.
+			</p>
+			<div class="doc-demo">
+				{{ page.demo_disabled.toBlocks|raw }}
+			</div>
+		{% endif %}
+
+		{% if page.demo_bordered.isNotEmpty %}
+			<h3 class="doc-subheading">Borders</h3>
+			<p class="doc-lead">
+				Add <code>accordion--bordered</code> via the CSS Classes field to wrap the component in a border.
+			</p>
+			<div class="doc-demo">
+				{{ page.demo_bordered.toBlocks|raw }}
+			</div>
+		{% endif %}
+	</section>
+
+	{# ── 4. Body blocks — edit content in the Kirby panel ─────────────── #}
+	{{ page.body.toBlocks|raw }}
+{% endblock %}

@@ -16,12 +16,19 @@ return [
 
     'wearejust.twig.env.functions' => [
         'vite_asset' => 'viteAsset',
+        // page_children(page) — returns listed children without triggering
+        // Twig's public-property resolution (Pages|null $children = null).
+        'page_children' => function ($page) {
+            return $page->children()->listed();
+        },
     ],
 
     // Register the @ui Twig namespace so that any template can reference
     // ui-library snippets as @ui/filename.twig — mirrors the @ui Vite alias
     // declared in site/plugins/ui-library/vite.config.js.
+    // Register the @docs namespace for shared doc-site layout snippets.
     'wearejust.twig.namespaces' => [
-        'ui' => __DIR__ . '/../plugins/ui-library/snippets/blocks',
+        'ui'   => __DIR__ . '/../plugins/ui-library/snippets/blocks',
+        'docs' => __DIR__ . '/../snippets/docs',
     ],
 ];

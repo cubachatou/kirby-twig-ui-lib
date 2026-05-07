@@ -21,12 +21,12 @@ JS bound exclusively to `data-*` attributes.
 
 Collect before starting:
 
-| Input | Example | Notes |
-|---|---|---|
-| `{{SLUG}}` | `tabs` | Lowercase, hyphens OK — used for filenames, CSS classes, blueprint key |
-| `{{LABEL}}` | `Tabs` | Human-readable Panel label |
-| `{{VARIANTS}}` | `simple`, `with-icons` | Comma-separated; first is default |
-| `{{FIELDS}}` | `items (structure), label (text)` | Structure of the main data; free-form |
+| Input          | Example                           | Notes                                                                  |
+| -------------- | --------------------------------- | ---------------------------------------------------------------------- |
+| `{{SLUG}}`     | `tabs`                            | Lowercase, hyphens OK — used for filenames, CSS classes, blueprint key |
+| `{{LABEL}}`    | `Tabs`                            | Human-readable Panel label                                             |
+| `{{VARIANTS}}` | `simple`, `with-icons`            | Comma-separated; first is default                                      |
+| `{{FIELDS}}`   | `items (structure), label (text)` | Structure of the main data; free-form                                  |
 
 If the request provides all inputs, proceed immediately. If any are missing,
 ask for them in a single grouped question before generating any files.
@@ -87,6 +87,7 @@ tabs:
 ```
 
 **Rules:**
+
 - Tabs use `fields:` directly under the tab key — NOT `sections: → type: fields:`.
 - Never name a structure field `content` — it shadows `StructureObject::content()`.
 - Always extend shared field mixins from `blueprints/fields/` rather than repeating definitions.
@@ -167,6 +168,7 @@ tabs:
 ```
 
 **Rules:**
+
 - Use `item.text` (or your chosen field name) — never `item.content`.
 - All JS hooks are `data-{{SLUG}}-*` — never CSS classes.
 - Keep aria attributes: `aria-expanded`, `aria-controls`, `role="region"`, `aria-labelledby`, `hidden`.
@@ -186,25 +188,24 @@ tabs:
   No changes to _{{SLUG}}_base.twig, {{SLUG}}.js, or _{{SLUG}}.scss needed.
 #}
 
-{% set _wrapper_id  = block.html_id.isNotEmpty ? block.html_id.value : '{{SLUG}}' %}
+{% set _wrapper_id = block.html_id.isNotEmpty ? block.html_id.value : '{{SLUG}}' %}
 {% set _extra_class = block.css_classes.value %}
 
 {% embed '@ui/_{{SLUG}}_base.twig'
-    with {
-        items: block.items.toStructure(),
-        wrapper_id: _wrapper_id,
-        extra_class: _extra_class
-    }
+	with {
+		items: block.items.toStructure(),
+		wrapper_id: _wrapper_id,
+		extra_class: _extra_class
+	}
 %}
-    {% block item_header %}
-        {{- item.title.value -}}
-    {% endblock %}
-
-    {% block item_content %}
-        <div class="{{SLUG}}__content">
-            {{ item.text.kirbytext | raw }}
-        </div>
-    {% endblock %}
+	{% block item_header %}
+		{{- item.title.value -}}
+	{% endblock %}
+	{% block item_content %}
+		<div class="{{ SLUG }}__content">
+			{{ item.text.kirbytext|raw }}
+		</div>
+	{% endblock %}
 {% endembed %}
 ```
 
@@ -221,19 +222,18 @@ modifier classes to `extra_class` if needed:
 
 ```twig
 {% embed '@ui/_{{SLUG}}_base.twig'
-    with {
-        items: block.items.toStructure(),
-        wrapper_id: _wrapper_id,
-        extra_class: _extra_class ~ ' {{SLUG}}--{{VARIANT}}'
-    }
+	with {
+		items: block.items.toStructure(),
+		wrapper_id: _wrapper_id,
+		extra_class: _extra_class ~ ' {{SLUG}}--{{VARIANT}}'
+	}
 %}
-    {% block item_header %}
-        {# Variant-specific header markup — icon, image, etc. #}
-    {% endblock %}
-
-    {% block item_content %}
-        {# Variant-specific content wrapper #}
-    {% endblock %}
+	{% block item_header %}
+		{# Variant-specific header markup — icon, image, etc. #}
+	{% endblock %}
+	{% block item_content %}
+		{# Variant-specific content wrapper #}
+	{% endblock %}
 {% endembed %}
 ```
 
@@ -255,9 +255,9 @@ modifier classes to `extra_class` if needed:
 {% set style = block.style.value %}
 
 {% if style == '{{SECOND_VARIANT}}' %}
-    {% include '@ui/{{SLUG}}_{{SECOND_VARIANT}}.twig' %}
+	{% include '@ui/{{SLUG}}_{{SECOND_VARIANT}}.twig' %}
 {% else %}
-    {% include '@ui/{{SLUG}}_{{FIRST_VARIANT}}.twig' %}
+	{% include '@ui/{{SLUG}}_{{FIRST_VARIANT}}.twig' %}
 {% endif %}
 ```
 
@@ -348,6 +348,7 @@ Adjust the branches to match your actual variant count. Use `{% include %}` (not
 ```
 
 **Rules:**
+
 - Import `tokens` with `@use 'tokens' as *` — never `@import`.
 - Never use JS-bound selectors (`[data-*]`) in SCSS — those attributes are for JS only.
 - State-driven styling uses the HTML attribute (`[hidden]`, `[aria-expanded]`) not JS-added classes.
@@ -481,7 +482,7 @@ export function init{{LABEL_PASCAL}}s(config = {}) {
 **`src/scss/main.scss`** — add one `@use` line:
 
 ```scss
-@use '{{SLUG}}';
+@use "{{SLUG}}";
 ```
 
 **`src/js/main.js`** — add import and DOMContentLoaded call:
@@ -530,13 +531,179 @@ Add entries to the `'blueprints'` and `'snippets'` arrays in
 
 When in doubt, look at the accordion implementation as the ground truth:
 
-| Role | File |
-|---|---|
-| Blueprint | `blueprints/blocks/accordion.yml` |
-| Base template | `snippets/blocks/_accordion_base.twig` |
-| Default variant | `snippets/blocks/accordion_simple.twig` |
-| Rich variant | `snippets/blocks/accordion_rich.twig` |
-| Dispatcher | `snippets/blocks/accordion.twig` |
-| SCSS | `src/scss/_accordion.scss` |
-| JS module | `src/js/accordion.js` |
-| Registration | `index.php` — `'blocks/accordion'` entries |
+| Role               | File                                                            |
+| ------------------ | --------------------------------------------------------------- |
+| Blueprint          | `site/plugins/ui-library/blueprints/blocks/accordion.yml`       |
+| Base template      | `site/plugins/ui-library/snippets/blocks/_accordion_base.twig`  |
+| Default variant    | `site/plugins/ui-library/snippets/blocks/accordion_simple.twig` |
+| Dispatcher         | `site/plugins/ui-library/snippets/blocks/accordion.twig`        |
+| SCSS               | `site/plugins/ui-library/src/scss/_accordion.scss`              |
+| JS module          | `site/plugins/ui-library/src/js/accordion.js`                   |
+| Registration       | `site/plugins/ui-library/index.php`                             |
+| Doc page blueprint | `site/blueprints/pages/accordion.yml`                           |
+| Doc page template  | `site/templates/accordion.twig`                                 |
+| Doc page content   | `content/2_components/1_accordion/accordion.txt`                |
+
+---
+
+## Doc page — scaffold the documentation page
+
+Every new component needs a documentation page. Create these three files.
+
+### Page blueprint
+
+**Path:** `site/blueprints/pages/{{SLUG}}.yml`
+
+```yaml
+title: { { LABEL } }
+icon: code
+
+sections:
+  content:
+    type: fields
+    fields:
+      title:
+        type: text
+        required: true
+      excerpt:
+        type: text
+        label: Excerpt
+        help: Short description shown in search results and meta description.
+      intro:
+        type: writer
+        label: Intro
+        help: Lead paragraph beneath the title. 1–2 sentences.
+        marks:
+          - bold
+          - italic
+          - code
+          - link
+
+      usage:
+        type: blocks
+        label: Usage
+        help: Short connection snippet. Renders before Examples on the doc page.
+        fieldsets:
+          - heading
+          - text
+          - code
+          - list
+
+      # Add one `demo_*` field per named example variant (Basic, Multiple, etc.)
+      # For snippets (no Kirby block): omit demo_* fields; put Examples in body.
+      demo:
+        type: blocks
+        label: "Example — Basic"
+        help: Renders live on the doc page.
+        fieldsets:
+          - { { SLUG } }
+
+      body:
+        type: blocks
+        label: Body
+        help: Extending, API Reference, Blueprint fields, Accessibility sections.
+        fieldsets:
+          - heading
+          - text
+          - code
+          - list
+          - table
+          - quote
+```
+
+### Doc page template
+
+**Path:** `site/templates/{{SLUG}}.twig`
+
+Canonical section order — **Usage → Examples → Extending → API Reference → Blueprint fields → Accessibility**:
+
+```twig
+{% extends '@docs/layout.twig' %}
+
+{% block page_title %}
+	{{ page.title }} — Kirby UI Library
+{% endblock %}
+{% block page_description %}
+	{{ page.excerpt }}
+{% endblock %}
+
+{% block content %}
+	{# ── 1. Component header ─────────────────────────────────────────── #}
+	<div class="mb-14">
+		<h1 class="mb-4 text-[2.25rem] font-extrabold leading-none tracking-tight text-doc-bright">{{ page.title }}</h1>
+		{% if page.intro.isNotEmpty %}
+			<div class="doc-intro">
+				{{ page.intro|raw }}
+			</div>
+		{% endif %}
+	</div>
+
+	{# ── 2. Usage — installation and basic usage blocks ──────────────── #}
+	{% if page.usage.isNotEmpty %}
+		<section id="usage" class="mb-14 scroll-mt-20">
+			<h2 class="doc-heading">Usage</h2>
+			{{ page.usage.toBlocks|raw }}
+		</section>
+	{% endif %}
+
+	{# ── 3. Examples — live component blocks from Kirby panel fields ─── #}
+	<section id="examples" class="mb-14 scroll-mt-20">
+		<h2 class="doc-heading">Examples</h2>
+
+		{% if page.demo.isNotEmpty %}
+			<h3 class="doc-subheading">Basic</h3>
+			<p class="doc-lead">
+				A standard {{ LABEL }} with default settings.
+			</p>
+			<div class="doc-demo">
+				{{ page.demo.toBlocks|raw }}
+			</div>
+		{% endif %}
+
+		{# Add more {% if page.demo_*.isNotEmpty %} blocks for each named example #}
+	</section>
+
+	{# ── 4. Body blocks — Extending, API Reference, Blueprint fields, A11y #}
+	{{ page.body.toBlocks|raw }}
+{% endblock %}
+```
+
+**Doc CSS classes** (for body block content):
+
+- `doc-heading` — h2 section heading
+- `doc-subheading` — h3 example sub-heading
+- `doc-lead` — introductory paragraph beneath a heading
+- `doc-demo` — live component preview wrapper
+- `doc-intro` — lead paragraph below the page h1
+- `doc-prose` — prose text container
+- `doc-code` — code block wrapper
+- `doc-table` — table wrapper
+
+### Usage field content
+
+The `usage` field is intentionally short — one note + one or two code blocks:
+
+- **For blocks** (Kirby block components): reference to [Installation guide](/getting-started/installation), then add-to-blueprint YAML, then render-blocks Twig snippet.
+- **For snippets** (Twig partials): reference to Installation guide, then the `{% include '@ui/_snippet.twig' with {...} %}` call.
+
+Do NOT put embed/override patterns in Usage — those belong in the Extending section of the body.
+
+### Body section order
+
+When editing body blocks in the panel, follow this order:
+
+1. **Extending** (h2) — how to override Twig, SCSS without forking; JS strategies only if the component has JavaScript
+2. **API Reference** (h2) — JS class/config options, or snippet parameters
+3. **Blueprint fields** (h2) — block blueprint field reference table (blocks only; omit for snippets)
+4. **Accessibility** (h2) — ARIA attributes, keyboard, focus ring notes
+
+**JS strategies in Extending** — include only when the component ships its own JavaScript module:
+
+- **Strategy 1: Data-attribute configuration** — read options from `data-*` attributes at init; no hardcoded values in JS
+- **Strategy 2: Push to stack** — push per-instance scripts to the page footer from within an embed
+- **Strategy 3: Stimulus controllers** — bind a `data-controller` for maintainable, decoupled behaviour
+- **Strategy 4: Combine embed and Stimulus** — use `{% embed %}` to change structure AND a Stimulus controller for new behaviour in the same block
+
+Components/snippets with **no JS module** must not include these strategies.
+
+---

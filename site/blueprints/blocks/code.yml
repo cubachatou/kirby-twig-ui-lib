@@ -1,0 +1,27 @@
+name: field.blocks.code.name
+icon: code
+wysiwyg: true
+preview: code
+fields:
+  code:
+    label: field.blocks.code.name
+    type: textarea
+    placeholder: field.blocks.code.placeholder
+    buttons: false
+    font: monospace
+  language:
+    label: field.blocks.code.language
+    type: select
+    default: text
+    options:
+      bash: Bash
+      css: CSS
+      html: HTML
+      javascript: JavaScript
+      json: JSON
+      php: PHP
+      scss: SCSS
+      text: Plain Text
+      twig: Twig
+      typescript: TypeScript
+      yaml: YAML

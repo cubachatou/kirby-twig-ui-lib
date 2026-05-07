@@ -1,0 +1,72 @@
+title: Accordion
+icon: list
+
+sections:
+  content:
+    type: fields
+    fields:
+      title:
+        type: text
+        required: true
+      excerpt:
+        type: text
+        label: Excerpt
+        help: Short description shown in search results and the page meta description.
+      intro:
+        type: writer
+        label: Intro
+        help: Lead paragraph displayed beneath the title. Keep it to 1–2 sentences.
+        marks:
+          - bold
+          - italic
+          - code
+          - link
+      usage:
+        type: blocks
+        label: Usage
+        help: Installation steps and basic usage. Renders before the examples on the doc page.
+        fieldsets:
+          - heading
+          - text
+          - code
+          - list
+
+      demo:
+        type: blocks
+        label: "Example — Basic"
+        help: Single-open accordion. Renders live on the doc page.
+        fieldsets:
+          - accordion
+
+      demo_multiple:
+        type: blocks
+        label: "Example — Multiple"
+        help: Accordion with Allow Multiple Open enabled.
+        fieldsets:
+          - accordion
+
+      demo_disabled:
+        type: blocks
+        label: "Example — Disabled"
+        help: Accordion containing a disabled item.
+        fieldsets:
+          - accordion
+
+      demo_bordered:
+        type: blocks
+        label: "Example — Borders"
+        help: Accordion with the accordion--bordered CSS modifier.
+        fieldsets:
+          - accordion
+
+      body:
+        type: blocks
+        label: Body
+        help: Add sections below the examples (Installation, Fields, JS API, Accessibility…)
+        fieldsets:
+          - heading
+          - text
+          - code
+          - list
+          - table
+          - quote

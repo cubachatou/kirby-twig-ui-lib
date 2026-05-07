@@ -1,0 +1,14 @@
+title: Section
+icon: folder
+
+sections:
+  content:
+    type: fields
+    fields:
+      title:
+        type: text
+        required: true
+  pages:
+    type: pages
+    label: Pages in this section
+    status: all

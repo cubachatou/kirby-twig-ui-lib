@@ -1,0 +1,20 @@
+{% extends '@docs/layout.twig' %}
+
+{% block content %}
+	<div class="mb-14">
+		<h1 class="mb-4 text-[2.25rem] font-extrabold leading-none tracking-tight text-doc-bright">{{ page.title }}</h1>
+		{% if page.excerpt.isNotEmpty %}
+			<p class="max-w-[58ch] text-[1.0625rem] leading-relaxed text-doc-muted">
+				{{ page.excerpt }}
+			</p>
+		{% endif %}
+	</div>
+
+	{% if page.text.isNotEmpty %}
+		<div class="doc-prose">
+			{{ page.text.kirbytext|raw }}
+		</div>
+	{% endif %}
+
+	{{ page.body.toBlocks|raw }}
+{% endblock %}

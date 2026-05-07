@@ -6,12 +6,16 @@
 		"build": "vite build",
 		"preview": "vite preview --host",
 		"serve": "php -S 0.0.0.0:8000 kirby/router.php",
-		"start": "npm run serve & npm run dev"
+		"start": "npm run serve & npm run dev",
+		"cache:clean": "find site/cache -mindepth 2 -not -name 'index.html' -delete && echo 'Kirby cache cleared'"
 	},
 	"devDependencies": {
 		"@tailwindcss/vite": "^4.2.4",
 		"sass": "^1.86.0",
 		"tailwindcss": "^4.2.4",
 		"vite": "^6.3.0"
+	},
+	"dependencies": {
+		"playwright": "^1.59.1"
 	}
 }

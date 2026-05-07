@@ -1,0 +1,13 @@
+Title: Introduction
+
+----
+
+Excerpt: What this plugin is, what it includes, and where to go next.
+
+----
+
+Body: [{"content":{"level":"h2","text":"What is Kirby UI Library?"},"id":"intro-h1","type":"heading"},{"content":{"text":"<p>A collection of self-contained, accessible UI blocks for Kirby CMS 5. Each block ships with a Kirby panel blueprint, a Twig template, BEM-structured SCSS, and vanilla JavaScript — no framework required. Drop any block into a page blueprint, configure it in the panel, and render it in your template.</p>"},"id":"intro-t1","type":"text"},{"content":{"level":"h2","text":"What's included"},"id":"intro-h2","type":"heading"},{"content":{"text":"<ul><li><strong>Accordion</strong> — collapsible panels with full keyboard navigation and ARIA wiring. Zero framework dependencies.</li><li>More components coming — each following the same blueprint-driven, CSS-agnostic pattern.</li></ul>"},"id":"intro-l1","type":"list"},{"content":{"level":"h2","text":"Design principles"},"id":"intro-h3","type":"heading"},{"content":{"text":"<ul><li><strong>CSS-agnostic</strong> — plugin components use BEM SCSS that doesn't conflict with your project's own styles.</li><li><strong>No JS framework</strong> — everything is vanilla JavaScript with no runtime dependencies.</li><li><strong>Panel-first</strong> — every component is a proper Kirby block, configurable without touching code.</li><li><strong>Accessible by default</strong> — keyboard navigation and ARIA attributes are built in, not bolted on.</li></ul>"},"id":"intro-l2","type":"list"},{"content":{"level":"h2","text":"Where to go next"},"id":"intro-h4","type":"heading"},{"content":{"text":"<ul><li>Follow the <a href=\"/getting-started/installation\">Installation guide</a> to add the plugin to your project.</li><li>Read the <a href=\"/components/accordion\">Accordion documentation</a> for the first component.</li></ul>"},"id":"intro-l3","type":"list"}]
+
+----
+
+Uuid: doc-introduction

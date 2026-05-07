@@ -1,30 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>
-			{{ page.title }}
-		</title>
+{% extends '@docs/layout.twig' %}
 
-		{% if option('debug') %}
-			<script type="module" src="http://localhost:5173/@vite/client"></script>
-			<script type="module" src="http://localhost:5173/assets/js/main.js"></script>
-		{% else %}
-			{% set entry = vite_asset('assets/js/main.js') %}
-			<link rel="stylesheet" href="/assets/dist/{{ entry.css[0] }}" />
-			<script type="module" src="/assets/dist/{{ entry.file }}"></script>
-		{% endif %}
+{% block content %}
+	<div class="mb-14">
+		<h1 class="mb-4 text-[2.25rem] font-extrabold leading-none tracking-tight text-doc-bright">{{ page.title }}</h1>
+	</div>
 
-		{# UI Library assets (CSS + JS for all registered components) #}
-		{{ snippet('ui-library/assets')|raw }}
-	</head>
-	<body>
-		<h1>{{ page.title }}</h1>
-
-		{# Render any blocks field defined in the page blueprint #}
-		{% if page.blocks.isNotEmpty %}
-			{{ page.blocks.toBlocks|raw }}
-		{% endif %}
-	</body>
-</html>
+	{% if page.blocks.isNotEmpty %}
+		{{ page.blocks.toBlocks|raw }}
+	{% endif %}
+{% endblock %}

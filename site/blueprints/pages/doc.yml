@@ -1,0 +1,24 @@
+title: Doc Page
+icon: text
+
+sections:
+  content:
+    type: fields
+    fields:
+      title:
+        type: text
+        required: true
+      excerpt:
+        type: text
+        label: Excerpt
+        help: Short description shown in search results and section listings.
+      body:
+        type: blocks
+        label: Body
+        fieldsets:
+          - heading
+          - text
+          - code
+          - list
+          - table
+          - quote

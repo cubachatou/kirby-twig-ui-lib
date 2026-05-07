@@ -1,0 +1,20 @@
+<div class="doc-sidebar-inner">
+	{% for section in site.children.listed %}
+		<div class="doc-nav-group">
+			<p class="doc-nav-group-label">{{ section.title }}</p>
+			<ul class="doc-nav-list" role="list">
+				{% for doc_page in page_children(section) %}
+					<li>
+						<a
+							href="/{{ doc_page.uri }}"
+							class="doc-nav-item{% if page.uri == doc_page.uri %} doc-nav-item--active{% endif %}"
+							{% if page.uri == doc_page.uri %}aria-current="page"{% endif %}
+						>
+							{{- doc_page.title -}}
+						</a>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	{% endfor %}
+</div>
