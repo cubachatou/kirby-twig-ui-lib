@@ -1,0 +1,18 @@
+title: Sandbox
+icon: preview
+
+sections:
+  content:
+    type: fields
+    fields:
+      title:
+        type: text
+        required: true
+      blocks:
+        type: blocks
+        label: Blocks
+        fieldsets:
+          - accordion
+          - button
+          - carousel
+          - select

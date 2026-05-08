@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>
+			Sandbox — {{ page.title }}
+		</title>
+		{# ── Main site CSS/JS (Tailwind) ─────────────────────────────────── #}
+		{% set _entry = vite_asset('assets/js/main.js') %}
+		{% if _entry.css is defined and _entry.css[0] is defined %}
+			<link rel="stylesheet" href="/assets/dist/{{ _entry.css[0] }}" />
+		{% endif %}
+		{% if option('debug') %}
+			<script type="module" src="http://localhost:5173/@vite/client"></script>
+			<script type="module" src="http://localhost:5173/assets/js/main.js"></script>
+		{% elseif _entry.file is defined %}
+			<script type="module" src="/assets/dist/{{ _entry.file }}"></script>
+		{% endif %}
+
+		{# ── KUI plugin assets ────────────────────────────────────────────── #}
+		{{ snippet('kui/assets')|raw }}
+	</head>
+	<body class="p-10 space-y-16 bg-white">
+		<div class="container mx-auto">
+			<h1 class="mb-10 text-3xl font-bold">Sandbox: {{ page.title }}</h1>
+
+			{% if page.blocks.isNotEmpty %}
+				{{ page.blocks.toBlocks|raw }}
+			{% endif %}
+		</div>
+	</body>
+</html>

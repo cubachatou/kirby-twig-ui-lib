@@ -788,6 +788,11 @@ pre[class*="language-"] {
 		margin-bottom: 0.5rem;
 	}
 
+	.doc-content a {
+		color: var(--color-doc-accent);
+		text-decoration: underline;
+	}
+
 	/* ── Right TOC ─────────────────────────────────────────────────────── */
 	.doc-toc {
 		grid-area: toc;

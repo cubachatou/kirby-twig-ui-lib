@@ -1,0 +1,80 @@
+{% extends '@docs/layout.twig' %}
+
+{% block page_title %}
+	{{ page.title }} — Kirby UI Library
+{% endblock %}
+{% block page_description %}
+	{{ page.excerpt }}
+{% endblock %}
+
+{% block content %}
+	{# ── 1. Component header — sourced from Kirby panel fields ──────── #}
+	<div class="mb-14">
+		<h1 class="mb-4 text-[2.25rem] font-extrabold leading-none tracking-tight text-doc-bright">{{ page.title }}</h1>
+		{% if page.intro.isNotEmpty %}
+			<div class="doc-intro">
+				{{ page.intro|raw }}
+			</div>
+		{% endif %}
+	</div>
+
+	{# ── 2. Usage — installation and basic usage blocks ─────────────── #}
+	{% if page.usage.isNotEmpty %}
+		<section id="usage" class="mb-14 scroll-mt-20">
+			<h2 class="doc-heading">Usage</h2>
+			{{ page.usage.toBlocks|raw }}
+		</section>
+	{% endif %}
+
+	{# ── 3. Examples — live carousel blocks from Kirby panel fields ──── #}
+	<section id="examples" class="mb-14 scroll-mt-20">
+		<h2 class="doc-heading">Examples</h2>
+
+		{% if page.demo.isNotEmpty %}
+			<h3 class="doc-subheading">Basic</h3>
+			<p class="doc-lead">
+				A standard carousel — no controls, swipe to navigate.
+			</p>
+			<div class="doc-example">
+				<div class="doc-example-preview">
+					{{ page.demo.toBlocks|raw }}
+				</div>
+				{% if page.demo_code.isNotEmpty %}{{ page.demo_code.toBlocks|raw }}{% endif %}
+			</div>
+		{% endif %}
+
+		{% if page.demo_navigation.isNotEmpty %}
+			<h3 class="doc-subheading">Navigation</h3>
+			<p class="doc-lead">
+				Enable the <em>Show Navigation</em> toggle to render previous/next arrow buttons.
+			</p>
+			<div class="doc-example">
+				<div class="doc-example-preview">
+					{{ page.demo_navigation.toBlocks|raw }}
+				</div>
+				{% if page.demo_navigation_code.isNotEmpty %}{{ page.demo_navigation_code.toBlocks|raw }}{% endif %}
+			</div>
+		{% endif %}
+
+		{% if page.demo_pagination.isNotEmpty %}
+			<h3 class="doc-subheading">Pagination</h3>
+			<p class="doc-lead">
+				Enable the <em>Show Pagination</em> toggle to render clickable dot indicators.
+			</p>
+			<div class="doc-example">
+				<div class="doc-example-preview">
+					{{ page.demo_pagination.toBlocks|raw }}
+				</div>
+				{% if page.demo_pagination_code.isNotEmpty %}{{ page.demo_pagination_code.toBlocks|raw }}{% endif %}
+			</div>
+		{% endif %}
+
+		<p class="doc-lead">
+			For more examples and configuration options, visit
+			<a href="https://swiperjs.com/demos" target="_blank" rel="noopener">swiperjs.com/demos</a>.
+		</p>
+	</section>
+
+	{# ── 4. Body blocks — edit content in the Kirby panel ────────────── #}
+	{{ page.body.toBlocks|raw }}
+{% endblock %}
