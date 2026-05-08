@@ -533,18 +533,18 @@ Add entries to the `'blueprints'` and `'snippets'` arrays in
 
 When in doubt, look at the accordion implementation as the ground truth:
 
-| Role               | File                                                     |
-| ------------------ | -------------------------------------------------------- |
-| Blueprint          | `site/plugins/kui/blueprints/blocks/accordion.yml`       |
-| Base template      | `site/plugins/kui/snippets/blocks/_accordion_base.twig`  |
-| Default variant    | `site/plugins/kui/snippets/blocks/accordion_simple.twig` |
-| Dispatcher         | `site/plugins/kui/snippets/blocks/accordion.twig`        |
-| SCSS               | `site/plugins/kui/src/scss/_accordion.scss`              |
-| JS module          | `site/plugins/kui/src/js/accordion.js`                   |
-| Registration       | `site/plugins/kui/index.php`                             |
-| Doc page blueprint | `site/blueprints/pages/accordion.yml`                    |
-| Doc page template  | `site/templates/accordion.twig`                          |
-| Doc page content   | `content/2_components/1_accordion/accordion.txt`         |
+| Role               | File                                                         |
+| ------------------ | ------------------------------------------------------------ |
+| Blueprint          | `site/plugins/kui/blueprints/blocks/kui-accordion.yml`       |
+| Base template      | `site/plugins/kui/snippets/blocks/_kui-accordion_base.twig`  |
+| Default variant    | `site/plugins/kui/snippets/blocks/kui-accordion_simple.twig` |
+| Dispatcher         | `site/plugins/kui/snippets/blocks/kui-accordion.twig`        |
+| SCSS               | `site/plugins/kui/src/scss/_accordion.scss`                  |
+| JS module          | `site/plugins/kui/src/js/accordion.js`                       |
+| Registration       | `site/plugins/kui/index.php`                                 |
+| Doc page blueprint | `site/blueprints/pages/accordion.yml`                        |
+| Doc page template  | `site/templates/accordion.twig`                              |
+| Doc page content   | `content/2_components/1_accordion/accordion.txt`             |
 
 ---
 
@@ -701,10 +701,8 @@ When editing body blocks in the panel, follow this order:
 
 **JS strategies in Extending** — include only when the component ships its own JavaScript module:
 
-- **Strategy 1: Data-attribute configuration** — read options from `data-*` attributes at init; no hardcoded values in JS
-- **Strategy 2: Push to stack** — push per-instance scripts to the page footer from within an embed
-- **Strategy 3: Stimulus controllers** — bind a `data-controller` for maintainable, decoupled behaviour
-- **Strategy 4: Combine embed and Stimulus** — use `{% embed %}` to change structure AND a Stimulus controller for new behaviour in the same block
+- **Strategy 1 — Class Extension**: import the JS class from `site/plugins/kui/src/js/{slug}.js`, subclass it, and override private methods (`_open`, `_close`, `_selectItem`, etc.). Load CSS only via `snippet('kui/assets', { js: false })` to prevent double-init.
+- **Strategy 2 — Eject**: don't import the plugin JS at all — write your own. The `data-kui-{slug}-*` attribute contract is the stable public API and will not change between versions. Load CSS only via `snippet('kui/assets', { js: false })` and bind whatever logic you need.
 
 Components/snippets with **no JS module** must not include these strategies.
 

@@ -37,7 +37,7 @@ sections:
         label: "Example — Default (live preview)"
         help: A basic select with a flat list of options.
         fieldsets:
-          - select
+          - kui-select
 
       demo_default_code:
         type: blocks
@@ -51,7 +51,7 @@ sections:
         label: "Example — Groups (live preview)"
         help: Select with grouped options using SelectGroup, SelectLabel, and SelectSeparator.
         fieldsets:
-          - select
+          - kui-select
 
       demo_groups_code:
         type: blocks
@@ -65,7 +65,7 @@ sections:
         label: "Example — Scrollable (live preview)"
         help: A select with many items that scrolls within the popup.
         fieldsets:
-          - select
+          - kui-select
 
       demo_scrollable_code:
         type: blocks
@@ -79,7 +79,7 @@ sections:
         label: "Example — Disabled (live preview)"
         help: Select with the Disabled setting enabled.
         fieldsets:
-          - select
+          - kui-select
 
       demo_disabled_code:
         type: blocks
@@ -93,7 +93,7 @@ sections:
         label: "Example — Invalid (live preview)"
         help: Select with the Invalid setting enabled, showing the error state.
         fieldsets:
-          - select
+          - kui-select
 
       demo_invalid_code:
         type: blocks

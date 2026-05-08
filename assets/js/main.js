@@ -1,4 +1,5 @@
-import "../css/main.css";
+import "../css/tailwind.css";
+import "../scss/main.scss";
 
 // ── Dark / light mode ──────────────────────────────────────────────────────
 (function initTheme() {

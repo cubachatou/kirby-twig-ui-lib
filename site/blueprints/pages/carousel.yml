@@ -36,7 +36,7 @@ sections:
         label: "Example — Basic (live preview)"
         help: Standard carousel with no navigation or pagination.
         fieldsets:
-          - carousel
+          - kui-carousel
 
       demo_code:
         type: blocks
@@ -50,7 +50,7 @@ sections:
         label: "Example — Navigation (live preview)"
         help: Carousel with previous/next arrow buttons enabled.
         fieldsets:
-          - carousel
+          - kui-carousel
 
       demo_navigation_code:
         type: blocks
@@ -64,7 +64,7 @@ sections:
         label: "Example — Pagination (live preview)"
         help: Carousel with clickable dot indicators enabled.
         fieldsets:
-          - carousel
+          - kui-carousel
 
       demo_pagination_code:
         type: blocks

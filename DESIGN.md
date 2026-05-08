@@ -194,16 +194,16 @@ Everything above, plus:
 **JS API** (`accordion.js`):
 
 - Constructor: `new Accordion(rootElement, config?)`
-- Config keys: `triggerSelector` (default `[data-kui-accordion-trigger]`), `panelSelector` (default `[data-kui-accordion-panel]`), `allowMultipleOpen` (default: read from `data-kui-accordion-multiple` attribute on root, else `false`), `onOpen(trigger, panel)`, `onClose(trigger, panel)`
-- `allowMultipleOpen` can also be toggled per-block in the Kirby panel (Settings tab). The block template writes `data-kui-accordion-multiple` on the root element when enabled.
+- Config keys: `triggerSelector` (default `[data-kui-accordion-trigger]`), `panelSelector` (default `[data-kui-accordion-panel]`), `allowMultipleOpen` (default `false`), `onOpen(trigger, panel)`, `onClose(trigger, panel)`
+- `allowMultipleOpen` is driven by the Panel `allow_multiple_open` toggle. The base template serialises the field value to `data-kui-accordion-options='{"allowMultipleOpen":true}'` on the root element; `initAccordions()` reads and merges it per-instance.
 - JS sets `data-state="open"|"closed"` on each panel; CSS `grid-template-rows` transition reads this attribute. The `hidden` attribute is only present server-side before JS initialises; `init()` removes it and seeds the `data-state` values.
 - `destroy()` fully reverses initialization — removes all event listeners
 - CSS-agnostic: JS never reads or writes class names
 
 **Data-attribute hooks:**
 
-| Attribute                | Element     | Role                        |
-| ------------------------ | ----------- | --------------------------- |
+| Attribute                    | Element     | Role                        |
+| ---------------------------- | ----------- | --------------------------- |
 | `data-kui-accordion`         | wrapper     | JS initializes on this root |
 | `data-kui-accordion-item`    | each item   | scopes open/close logic     |
 | `data-kui-accordion-trigger` | `<button>`  | click target                |

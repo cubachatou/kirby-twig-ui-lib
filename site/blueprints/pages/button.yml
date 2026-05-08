@@ -42,4 +42,4 @@ sections:
           - list
           - table
           - quote
-          - button
+          - kui-button

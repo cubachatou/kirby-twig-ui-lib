@@ -36,7 +36,7 @@ sections:
         label: "Example — Basic (live preview)"
         help: Single-open accordion. Renders live on the doc page.
         fieldsets:
-          - accordion
+          - kui-accordion
 
       demo_code:
         type: blocks
@@ -50,7 +50,7 @@ sections:
         label: "Example — Multiple (live preview)"
         help: Accordion with Allow Multiple Open enabled.
         fieldsets:
-          - accordion
+          - kui-accordion
 
       demo_multiple_code:
         type: blocks
@@ -64,7 +64,7 @@ sections:
         label: "Example — Disabled (live preview)"
         help: Accordion containing a disabled item.
         fieldsets:
-          - accordion
+          - kui-accordion
 
       demo_disabled_code:
         type: blocks
@@ -78,7 +78,7 @@ sections:
         label: "Example — Borders (live preview)"
         help: Accordion with the accordion--bordered CSS modifier.
         fieldsets:
-          - accordion
+          - kui-accordion
 
       demo_bordered_code:
         type: blocks

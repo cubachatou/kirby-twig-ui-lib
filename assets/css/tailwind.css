@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+/* Tell Tailwind to scan Twig templates — they're not in the Vite module
+   graph so the dev-server won't pick them up automatically. */
+@source "../../site/templates/**/*.twig";
+@source "../../site/plugins/kui/snippets/**/*.twig";
+@source "../../site/snippets/**/*.twig";
+
+/* ── Theme tokens ─────────────────────────────────────────────────────────── */
+@theme {
+	/* Neutrals — blue-cool tint (hue 255) keeps them from feeling dead */
+	--color-doc-bg: oklch(10.5% 0.003 255);
+	--color-doc-surface: oklch(15% 0.004 255);
+	--color-doc-surface-2: oklch(19% 0.004 255);
+	--color-doc-border: oklch(27% 0.005 255);
+	--color-doc-border-sub: oklch(19% 0.003 255);
+	--color-doc-text: oklch(88% 0.004 255);
+	--color-doc-bright: oklch(94% 0.003 255);
+	--color-doc-muted: oklch(65% 0.005 255);
+	--color-doc-accent: oklch(57% 0.22 264);
+	--color-doc-accent-dim: oklch(18% 0.06 264);
+
+	/* Section palette — wayfinding accent per sidebar section */
+	--color-doc-section-1: oklch(78% 0.14 65); /* amber  — Getting Started */
+	--color-doc-section-1-dim: oklch(17% 0.06 65);
+	--color-doc-section-2: oklch(57% 0.22 264); /* blue   — Components */
+	--color-doc-section-2-dim: oklch(18% 0.06 264);
+	--color-doc-section-3: oklch(75% 0.12 178); /* teal   — Elements */
+	--color-doc-section-3-dim: oklch(16% 0.05 178);
+
+	/* Ring — focus indicator, decoupled from accent (shadcn/ui pattern) */
+	--color-doc-ring: oklch(57% 0.22 264);
+
+	/* Input — form-control border, separate from generic dividers */
+	--color-doc-input: oklch(27% 0.005 255);
+
+	/* Radius scale (shadcn/ui pattern: one token per semantic size) */
+	--doc-radius-xs: 3px; /* code pills, kbd, tiny badges */
+	--doc-radius-sm: 4px; /* small interactive controls */
+	--doc-radius-md: 6px; /* panels, code blocks, tables, nav items */
+	--doc-radius-lg: 8px; /* cards, example wrappers, demo surfaces */
+	--doc-radius-xl: 10px; /* large floating surfaces (search panel) */
+
+	--font-family-mono: ui-monospace, SFMono-Regular, "Cascadia Code", "Fira Code", Menlo, Consolas, monospace;
+}
+
+/* Prism Tomorrow sets its own background — zero it out so our surface
+   shows through uniformly (also applied per-block in .doc-code). */
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background-color: var(--color-doc-surface);
+}
