@@ -1,0 +1,45 @@
+title: Badge
+icon: code
+
+sections:
+  content:
+    type: fields
+    fields:
+      title:
+        type: text
+        required: true
+      excerpt:
+        type: text
+        label: Excerpt
+        help: Short description shown in search results and the page meta description.
+      intro:
+        type: writer
+        label: Intro
+        help: Lead paragraph displayed beneath the title. Keep it to 1–2 sentences.
+        marks:
+          - bold
+          - italic
+          - code
+          - link
+      usage:
+        type: blocks
+        label: Usage
+        help: Short include/usage snippet. Renders before Examples on the doc page.
+        fieldsets:
+          - heading
+          - text
+          - code
+          - list
+
+      body:
+        type: blocks
+        label: Body
+        help: Examples, Extending, API Reference, Accessibility sections.
+        fieldsets:
+          - heading
+          - text
+          - code
+          - list
+          - table
+          - quote
+          - kui-badge

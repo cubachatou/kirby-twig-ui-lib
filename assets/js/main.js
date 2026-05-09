@@ -206,12 +206,15 @@ import "../scss/main.scss";
 	});
 })();
 
-// ── Example blocks: wrap button(s) + .doc-code pairs into cards ──────────
-// The Kirby button block renders a bare <button> element with no container.
+// ── Example blocks: wrap component(s) + .doc-code pairs into cards ───────
+// Button and badge blocks render bare elements with no container.
 // This post-processes the body: scanning backwards from each .doc-code to
-// collect all consecutive .button siblings immediately before it, then wraps
+// collect all consecutive component siblings immediately before it, then wraps
 // them together in a .doc-example card (preview zone + code zone).
+// Add new component root classes to PREVIEW_CLASSES when a new block is created.
 (function initExampleWrappers() {
+	var PREVIEW_CLASSES = ["kui-button", "kui-badge"];
+
 	var content = document.getElementById("doc-content");
 	if (!content) return;
 
@@ -220,10 +223,15 @@ import "../scss/main.scss";
 		// Skip code blocks inside the hero demo
 		if (codeBlock.closest(".doc-demo")) return;
 
-		// Walk backwards from the code block collecting consecutive .kui-button siblings
+		// Walk backwards from the code block collecting consecutive component siblings
 		var buttons = [];
 		var el = codeBlock.previousElementSibling;
-		while (el && el.classList.contains("kui-button")) {
+		while (
+			el &&
+			PREVIEW_CLASSES.some(function (cls) {
+				return el.classList.contains(cls);
+			})
+		) {
 			buttons.unshift(el); // prepend to preserve DOM order
 			el = el.previousElementSibling;
 		}

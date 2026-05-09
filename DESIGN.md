@@ -2,15 +2,45 @@
 name: Kirby UI Library
 description: Self-contained accessible Kirby CMS blocks — semantic markup, CSS-agnostic JS, zero framework opinions.
 colors:
-  surface: "oklch(14% 0.003 255)"
-  surface-hover: "oklch(21% 0.004 255)"
-  border: "oklch(28% 0.005 255)"
-  text: "oklch(90% 0.004 255)"
-  text-muted: "oklch(54% 0.005 255)"
-  focus-ring: "oklch(57.311% 0.21458 258.263)"
-  focus-ring-hover: "oklch(39.107% 0.16074 260.151)"
-  destructive: "oklch(59.013% 0.20533 26.197)"
-  destructive-hover: "oklch(52.301% 0.19793 27.578)"
+  background: "oklch(1 0 0)"
+  foreground: "oklch(0.145 0 0)"
+  card: "oklch(1 0 0)"
+  card-foreground: "oklch(0.145 0 0)"
+  popover: "oklch(1 0 0)"
+  popover-foreground: "oklch(0.145 0 0)"
+  primary: "oklch(0.205 0 0)"
+  primary-foreground: "oklch(0.985 0 0)"
+  secondary: "oklch(0.97 0 0)"
+  secondary-foreground: "oklch(0.205 0 0)"
+  muted: "oklch(0.97 0 0)"
+  muted-foreground: "oklch(0.556 0 0)"
+  accent: "oklch(0.97 0 0)"
+  accent-foreground: "oklch(0.205 0 0)"
+  destructive: "oklch(0.577 0.245 27.325)"
+  border: "oklch(0.922 0 0)"
+  input: "oklch(0.922 0 0)"
+  ring: "oklch(0.708 0 0)"
+  link: "oklch(0.57 0.21 258)"
+colors-dark:
+  background: "oklch(0.145 0 0)"
+  foreground: "oklch(0.985 0 0)"
+  card: "oklch(0.205 0 0)"
+  card-foreground: "oklch(0.985 0 0)"
+  popover: "oklch(0.205 0 0)"
+  popover-foreground: "oklch(0.985 0 0)"
+  primary: "oklch(0.922 0 0)"
+  primary-foreground: "oklch(0.205 0 0)"
+  secondary: "oklch(0.269 0 0)"
+  secondary-foreground: "oklch(0.985 0 0)"
+  muted: "oklch(0.269 0 0)"
+  muted-foreground: "oklch(0.708 0 0)"
+  accent: "oklch(0.269 0 0)"
+  accent-foreground: "oklch(0.985 0 0)"
+  destructive: "oklch(0.704 0.191 22.216)"
+  border: "oklch(1 0 0 / 10%)"
+  input: "oklch(1 0 0 / 15%)"
+  ring: "oklch(0.556 0 0)"
+  link: "oklch(0.57 0.21 258)"
 doc-site-colors-dark:
   doc-bg: "oklch(10.5% 0.003 255)"
   doc-surface: "oklch(15% 0.004 255)"
@@ -97,33 +127,39 @@ The doc-website that documents this plugin is a separate design layer from the p
 - BEM selects visually (`.kui-accordion__trigger`); data attributes select behaviorally (`[data-kui-accordion-trigger]`) — the two never cross
 - Doc-site is dark-mode-first; `<html data-theme="dark">` is set before first paint via inline `<script>`, with `localStorage` persistence and `prefers-color-scheme` fallback
 
-## 2. Colors: The Functional Palette
+## 2. Colors: The Token System
 
-The palette is deliberately non-expressive. Dark cool-tinted neutrals (hue 255) handle all surfaces, borders, and text. The focus-ring blue is infrastructure, not brand.
+The library follows a **shadcn/ui-style semantic token convention**. All color values live as CSS custom properties in `_root.scss`, not as SCSS variables. Each token is a background/foreground pair: the base token controls the surface color, and the `-foreground` token controls text and icon color on top of it.
 
-### Focus / Interactive
+Tokens are defined in two blocks:
 
-- **`$color-focus-ring`** (`oklch(57.311% 0.21458 258.263)`): Used exclusively for focus rings (`outline: 2px solid`) and the rich variant's content-inner left border. Never a background fill. Never a button color. Its presence on screen means keyboard focus or structured editorial content; its absence is a guarantee of neither.
-- **`$color-focus-ring-hover`** (`oklch(39.107% 0.16074 260.151)`): Deeper value for high-contrast focus and hover contexts.
+- **`:root`** — light theme defaults
+- **`:root[data-theme='dark']`** — dark overrides (activated by the doc-site's `<html data-theme="dark">` toggle)
 
-### Destructive
+### Token Reference
 
-- **`$color-destructive`** (`oklch(59.013% 0.20533 26.197)`): Semantic red for irreversible actions. Used as the destructive button fill and invalid-state border on form controls.
-- **`$color-destructive-hover`** (`oklch(52.301% 0.19793 27.578)`): Darker hover step for destructive elements.
+| Token                                    | Light                       | Dark                        | Used by                                                                                      |
+| ---------------------------------------- | --------------------------- | --------------------------- | -------------------------------------------------------------------------------------------- |
+| `--background` / `--foreground`          | white / near-black          | near-black / near-white     | Default component surface and text. Button default, accordion, select body.                  |
+| `--primary` / `--primary-foreground`     | near-black / near-white     | near-white / near-black     | High-contrast inverted surface. Button secondary, badge default.                             |
+| `--secondary` / `--secondary-foreground` | light gray / near-black     | dark gray / near-white      | Lower-emphasis surfaces. (Available for future components.)                                  |
+| `--muted` / `--muted-foreground`         | light gray / mid gray       | dark gray / lighter gray    | Placeholders, captions, chevrons, ghost badge.                                               |
+| `--accent` / `--accent-foreground`       | light gray / near-black     | dark gray / near-white      | Hover and active state surfaces. Button/accordion hover, select item hover, badge secondary. |
+| `--destructive`                          | `oklch(0.577 0.245 27.325)` | `oklch(0.704 0.191 22.216)` | Destructive button/badge tint (`color-mix 20%`), select error borders and text.              |
+| `--border`                               | light gray                  | `oklch(1 0 0 / 10%)`        | All component borders, dividers.                                                             |
+| `--input`                                | light gray                  | `oklch(1 0 0 / 15%)`        | Form control borders (select trigger). Slightly stronger than `--border`.                    |
+| `--ring`                                 | mid gray                    | mid gray                    | Focus rings (`outline: 2px solid var(--ring)`). Neutral — non-chromatic.                     |
+| `--link`                                 | `oklch(0.57 0.21 258)`      | `oklch(0.57 0.21 258)`      | Link button text color. Kept separate so blue survives `--ring` going neutral.               |
 
-### Neutral
+### Rules
 
-- **`$color-surface`** (`oklch(14% 0.003 255)`): Default component background. Near-black with a cool hue bias.
-- **`$color-surface-hover`** (`oklch(21% 0.004 255)`): Alternate surface. Trigger background on hover and rich variant panel background. One lightness step up from `$color-surface` — enough to signal state change without a chromatic shift.
-- **`$color-border`** (`oklch(28% 0.005 255)`): All borders. One weight, one value, used consistently as the component wrapper border and item dividers.
-- **`$color-text`** (`oklch(90% 0.004 255)`): All body text and trigger labels. Near-white for contrast against dark surfaces.
-- **`$color-text-muted`** (`oklch(54% 0.005 255)`): Secondary text, muted states. The rich variant icon sits here at rest before shifting to `$color-focus-ring` on expand.
+**The Semantic Pair Rule.** Every surface token has a `-foreground` sibling. Always use the pair together — never mix a surface from one pair with a foreground from another.
 
-### Named Rules
+**The One-Step Tint Rule.** Hover/active state is expressed by shifting from `--background` to `--accent`. No color-coded states, no saturation shifts. One step, one signal.
 
-**The Functional Accent Rule.** `$color-focus-ring` is accessibility infrastructure, not brand expression. It appears on focus rings and the rich variant's content-inner structural accent. It is never a background fill, never a call-to-action color, never decorative. If the focus-ring blue is visible, something interactive is in focus or structured editorial content is being highlighted.
+**The Destructive Tint Rule.** Destructive variants use `color-mix(in oklab, var(--destructive) 20%, transparent)` for background and `var(--destructive)` for text — never a solid fill. See the `_badge.scss` and `_button.scss` destructive variants.
 
-**The One-Step Tint Rule.** State change is expressed by shifting exactly one surface step: `$color-surface` to `$color-surface-hover`. No color-coded states, no traffic-light hues, no saturation shifts. Hovered/open is `$color-surface-hover`. Default is `$color-surface`. That's the full color vocabulary of state.
+**The Link Blue Rule.** `--link` is the only chromatic non-destructive custom property. It is used exclusively for the link button text color — never as a background fill, never for focus rings.
 
 ## 3. Typography
 
@@ -148,12 +184,12 @@ The palette is deliberately non-expressive. Dark cool-tinted neutrals (hue 255) 
 
 Flat by design. No component in this library uses `box-shadow`. Depth is expressed through two mechanisms only:
 
-1. **Border stack:** The accordion wrapper carries a full-perimeter 1px `$color-border` border with `border-radius-lg` (8px). Item separators use the same 1px rule internally. The border defines the component boundary without suggesting it floats above the page.
-2. **Surface tint:** The shift from `$color-surface` (`oklch(14% 0.003 255)`) to `$color-surface-hover` (`oklch(21% 0.004 255)`) on trigger hover and expand conveys state change. A 7-step lightness delta — perceptible without being chromatic.
+1. **Border stack:** The accordion wrapper carries a full-perimeter 1px `var(--border)` border with `border-radius-lg` (8px). Item separators use the same 1px rule internally. The border defines the component boundary without suggesting it floats above the page.
+2. **Surface tint:** The shift from `var(--background)` to `var(--accent)` on trigger hover and expand conveys state change without any chromatic shift.
 
 ### Named Rules
 
-**The Flat-by-Default Rule.** No component in this library uses `box-shadow`, at rest, on hover, or as a focus indicator. Focus is a `2px solid $color-focus-ring outline` with `-2px` offset (inset — never shifts surrounding layout). State is a background tint. Shadow = not here.
+**The Flat-by-Default Rule.** No component in this library uses `box-shadow`, at rest, on hover, or as a focus indicator. Focus is a `2px solid var(--ring) outline` with `-2px` offset (inset — never shifts surrounding layout). State is a background tint. Shadow = not here.
 
 ## 5. Components
 

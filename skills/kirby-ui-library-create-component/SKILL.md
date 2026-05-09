@@ -293,7 +293,7 @@ Adjust the branches to match your actual variant count. Use `{% include %}` (not
 
 // ── Item ──────────────────────────────────────────────────────────────────────
 .kui-{{SLUG}}__item {
-  border-bottom: $border-width solid $color-border;
+  border-bottom: $border-width solid var(--border);
 
   &:last-child {
     border-bottom: none;
@@ -316,16 +316,16 @@ Adjust the branches to match your actual variant count. Use `{% include %}` (not
   cursor: pointer;
   font-size: $font-size-base;
   font-weight: $font-weight-semibold;
-  color: $color-text;
+  color: var(--foreground);
   text-align: left;
   transition: background-color $transition-fast;
 
   &:hover {
-    background-color: $color-surface-hover;
+    background-color: var(--accent);
   }
 
   &:focus-visible {
-    outline: 2px solid $color-focus-ring;
+    outline: 2px solid var(--ring);
     outline-offset: -2px;
   }
 }
@@ -342,7 +342,7 @@ Adjust the branches to match your actual variant count. Use `{% include %}` (not
 
 .kui-{{SLUG}}__content {
   padding: $space-md $space-lg $space-lg;
-  color: $color-text;
+  color: var(--foreground);
   line-height: $line-height-base;
 }
 ```
@@ -350,6 +350,14 @@ Adjust the branches to match your actual variant count. Use `{% include %}` (not
 **Rules:**
 
 - Import `tokens` with `@use 'tokens' as *` — never `@import`.
+- **Color values: always use CSS custom properties (`var(--token)`), never `$color-*` SCSS variables.** The full token set is defined in `_root.scss` following the shadcn/ui convention. Key tokens:
+  - `var(--background)` / `var(--foreground)` — default surface and text
+  - `var(--accent)` / `var(--accent-foreground)` — hover / active surface
+  - `var(--border)` — all borders and dividers; `var(--input)` — form control borders
+  - `var(--muted-foreground)` — placeholder text, captions, muted icons
+  - `var(--ring)` — focus outlines (`outline: 2px solid var(--ring)`)
+  - `var(--destructive)` — error / danger states
+- Non-color build-time values (`$space-*`, `$font-*`, `$border-width`, `$border-radius-*`, `$transition-*`) remain SCSS variables from `_tokens.scss`.
 - Never use JS-bound selectors (`[data-*]`) in SCSS — those attributes are for JS only.
 - State-driven styling uses the HTML attribute (`[hidden]`, `[aria-expanded]`) not JS-added classes.
 
@@ -524,6 +532,7 @@ Add entries to the `'blueprints'` and `'snippets'` arrays in
 - [ ] Blueprint tabs use `fields:` directly — no `sections:` wrapper
 - [ ] Both new keys are added to `index.php` blueprints AND snippets arrays
 - [ ] `main.scss` and `main.js` import/call the new component
+- [ ] `initExampleWrappers` in `assets/js/main.js` lists the component's root CSS class in the `PREVIEW_CLASSES` array (e.g. `"kui-badge"`) — required for the live preview + code card wrapper to appear on the doc page
 - [ ] `content/2_components/N_{{SLUG}}/{{SLUG}}.txt` created with realistic demo blocks and `Template: {{SLUG}}` + `Uuid: doc-{{SLUG}}`
 - [ ] Kirby cache cleared after creating the content file (`find site/cache -name "*.cache" -delete`)
 
@@ -545,6 +554,48 @@ When in doubt, look at the accordion implementation as the ground truth:
 | Doc page blueprint | `site/blueprints/pages/accordion.yml`                        |
 | Doc page template  | `site/templates/accordion.twig`                              |
 | Doc page content   | `content/2_components/1_accordion/accordion.txt`             |
+
+---
+
+### Doc-site custom color overrides
+
+When the doc page demonstrates `extra_class` color variants (e.g. `badge--blue`), define those classes in `assets/scss/main.scss` using a **compound selector** that includes the component's root class:
+
+```scss
+// ✓ Correct — compound selector wins over .kui-badge--{variant} even when plugin CSS loads after doc CSS
+.kui-badge.badge--blue   { background-color: oklch(30% 0.10 264); ... }
+
+// ✗ Wrong — single class has equal specificity; plugin CSS loaded later will override it
+.badge--blue             { background-color: oklch(30% 0.10 264); ... }
+```
+
+Also add light-mode inversions inside the `:root[data-theme='light'] { }` block using the same compound selector.
+
+### Destructive variant style
+
+All components that expose a `destructive` variant must use the **same soft-tint pattern** — a transparent-mixed background with the full `--destructive` color as text:
+
+```scss
+&--destructive {
+	background-color: color-mix(in oklab, var(--destructive) 20%, transparent);
+	color: var(--destructive);
+	// button also sets: border-color: transparent;
+	// button hover:     background-color: color-mix(in oklab, var(--destructive) 30%, transparent);
+}
+```
+
+The `--destructive` CSS custom property is defined in `site/plugins/kui/src/scss/_root.scss` for both light and dark themes:
+
+```scss
+:root {
+	--destructive: oklch(0.577 0.245 27.325); // light
+}
+:root[data-theme="dark"] {
+	--destructive: oklch(0.704 0.191 22.216); // dark
+}
+```
+
+Do **not** use a SCSS `$color-*` variable for destructive — all color values are CSS custom properties. When adding a new element or component with a destructive variant, follow this soft-tint rule so all destructive elements look consistent.
 
 ---
 
@@ -698,6 +749,8 @@ When editing body blocks in the panel, follow this order:
 2. **API Reference** (h2) — JS class/config options, or snippet parameters
 3. **Blueprint fields** (h2) — block blueprint field reference table (blocks only; omit for snippets)
 4. **Accessibility** (h2) — ARIA attributes, keyboard, focus ring notes
+
+> **Always include the Blueprint fields section** — it is required for the "On this page" sidebar to list it and for users to understand Panel field mapping. Do not skip it.
 
 **JS strategies in Extending** — include only when the component ships its own JavaScript module:
 

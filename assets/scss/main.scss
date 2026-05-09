@@ -30,6 +30,19 @@ html {
   scrollbar-gutter: stable;
 }
 
+// ── Dark theme defaults (section palette) ─────────────────────────────────────
+// Tailwind v4 @theme doesn't emit CSS custom properties for variables with
+// numeric suffixes (e.g. section-1, section-2) — they're absorbed into its
+// color scale machinery. Define the dark-mode section colors explicitly here.
+:root {
+  --color-doc-section-1: oklch(78% 0.14 65); // amber  — Getting Started
+  --color-doc-section-1-dim: oklch(17% 0.06 65);
+  --color-doc-section-2: oklch(57% 0.22 264); // blue   — Components
+  --color-doc-section-2-dim: oklch(18% 0.06 264);
+  --color-doc-section-3: oklch(75% 0.12 178); // teal   — Elements
+  --color-doc-section-3-dim: oklch(16% 0.05 178);
+}
+
 // ── Light theme override ───────────────────────────────────────────────────────
 // Applied when [data-theme="light"] on <html>.
 // Palette mirrors the plugin's design tokens for coherence with DESIGN.md.
@@ -54,6 +67,28 @@ html {
   --color-doc-section-2-dim: #e5f0ff;
   --color-doc-section-3: #0f766e; // teal  — Elements
   --color-doc-section-3-dim: #ccfbf1;
+
+  // Badge custom color demos — light-mode inversions
+  .kui-badge.badge--blue {
+    background-color: oklch(92% 0.04 264);
+    color: oklch(28% 0.12 264);
+  }
+  .kui-badge.badge--green {
+    background-color: oklch(92% 0.04 150);
+    color: oklch(28% 0.11 150);
+  }
+  .kui-badge.badge--sky {
+    background-color: oklch(92% 0.03 218);
+    color: oklch(28% 0.1 218);
+  }
+  .kui-badge.badge--purple {
+    background-color: oklch(92% 0.04 296);
+    color: oklch(28% 0.12 296);
+  }
+  .kui-badge.badge--red {
+    background-color: oklch(92% 0.04 25);
+    color: oklch(28% 0.12 25);
+  }
 
   // Soft off-white canvas for example previews
   .doc-example-preview {
@@ -115,6 +150,36 @@ html {
       }
     }
   }
+}
+
+// ── Badge custom color demos ───────────────────────────────────────────────────
+// These classes demonstrate the extra_class override pattern from the badge
+// doc page. They are doc-site-level definitions, not part of the plugin CSS.
+// Add analogous modifiers to your project stylesheet to create custom badge colors.
+.kui-badge.badge--blue {
+  background-color: oklch(30% 0.1 264);
+  border-color: transparent;
+  color: oklch(85% 0.07 264);
+}
+.kui-badge.badge--green {
+  background-color: oklch(30% 0.09 150);
+  border-color: transparent;
+  color: oklch(85% 0.06 150);
+}
+.kui-badge.badge--sky {
+  background-color: oklch(30% 0.08 218);
+  border-color: transparent;
+  color: oklch(85% 0.06 218);
+}
+.kui-badge.badge--purple {
+  background-color: oklch(30% 0.1 296);
+  border-color: transparent;
+  color: oklch(85% 0.07 296);
+}
+.kui-badge.badge--red {
+  background-color: oklch(30% 0.1 25);
+  border-color: transparent;
+  color: oklch(85% 0.07 25);
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
