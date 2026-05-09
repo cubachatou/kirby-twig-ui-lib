@@ -1,0 +1,100 @@
+title: Tabs
+icon: layout
+
+sections:
+  content:
+    type: fields
+    fields:
+      title:
+        type: text
+        required: true
+
+      excerpt:
+        type: text
+        label: Excerpt
+        help: Short description shown in search results and the page meta description.
+
+      intro:
+        type: writer
+        label: Intro
+        help: Lead paragraph displayed beneath the title. Keep it to 1–2 sentences.
+        marks:
+          - bold
+          - italic
+          - code
+          - link
+
+      usage:
+        type: blocks
+        label: Usage
+        help: Installation steps and basic usage. Renders before the examples on the doc page.
+        fieldsets:
+          - heading
+          - text
+          - code
+          - list
+
+      demo:
+        type: blocks
+        label: "Example — Default (live preview)"
+        help: Standard pill-style tabs. Renders live on the doc page.
+        fieldsets:
+          - kui-tabs
+
+      demo_code:
+        type: blocks
+        label: "Example — Default (usage code)"
+        help: Code snippet shown below the live preview.
+        fieldsets:
+          - code
+
+      demo_line:
+        type: blocks
+        label: "Example — Line (live preview)"
+        help: Underline indicator style.
+        fieldsets:
+          - kui-tabs
+
+      demo_line_code:
+        type: blocks
+        label: "Example — Line (usage code)"
+        fieldsets:
+          - code
+
+      demo_vertical:
+        type: blocks
+        label: "Example — Vertical (live preview)"
+        help: Stacked list on the left, panel on the right.
+        fieldsets:
+          - kui-tabs
+
+      demo_vertical_code:
+        type: blocks
+        label: "Example — Vertical (usage code)"
+        fieldsets:
+          - code
+
+      demo_disabled:
+        type: blocks
+        label: "Example — Disabled (live preview)"
+        help: Tabs containing a disabled trigger.
+        fieldsets:
+          - kui-tabs
+
+      demo_disabled_code:
+        type: blocks
+        label: "Example — Disabled (usage code)"
+        fieldsets:
+          - code
+
+      body:
+        type: blocks
+        label: Body
+        help: Add sections below the examples (Fields, JS API, Accessibility…)
+        fieldsets:
+          - heading
+          - text
+          - code
+          - list
+          - table
+          - quote

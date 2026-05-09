@@ -954,6 +954,7 @@ html {
   // ── doc-example ───────────────────────────────────────────────────────────
   // JS wraps each bare preview block + its following .doc-code into this card.
   .doc-example {
+    overflow: hidden;
     border: 1px solid var(--color-doc-border);
     border-radius: var(--doc-radius-lg);
     margin-bottom: 2.5rem;
