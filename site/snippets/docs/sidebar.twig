@@ -1,7 +1,7 @@
 <div class="doc-sidebar-inner">
 	{% for section in site.children.listed %}
 		<div class="doc-nav-group">
-			<p class="doc-nav-group-label">{{ section.title }}</p>
+			<a href="/{{ section.uri }}" class="doc-nav-group-label">{{ section.title }}</a>
 			<ul class="doc-nav-list" role="list">
 				{% for doc_page in page_children(section) %}
 					<li>

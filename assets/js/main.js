@@ -34,9 +34,59 @@ import "../scss/main.scss";
 		if (blob) pages = JSON.parse(blob.textContent || "[]");
 	} catch (_) {}
 
+	var activeIndex = -1;
+
+	var S = 'xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"';
+	var ICONS = {
+		page:
+			"<svg " +
+			S +
+			'><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>',
+		component:
+			"<svg " +
+			S +
+			'><path d="M15.536 11.293a1 1 0 0 0 0 1.414l2.376 2.377a1 1 0 0 0 1.414 0l2.377-2.377a1 1 0 0 0 0-1.414l-2.377-2.377a1 1 0 0 0-1.414 0z"/><path d="M2.297 11.293a1 1 0 0 0 0 1.414l2.377 2.377a1 1 0 0 0 1.414 0l2.377-2.377a1 1 0 0 0 0-1.414L6.088 8.916a1 1 0 0 0-1.414 0z"/><path d="M8.916 17.912a1 1 0 0 0 0 1.415l2.377 2.376a1 1 0 0 0 1.414 0l2.377-2.376a1 1 0 0 0 0-1.415l-2.377-2.376a1 1 0 0 0-1.414 0z"/><path d="M8.916 4.674a1 1 0 0 0 0 1.414l2.377 2.376a1 1 0 0 0 1.414 0l2.377-2.376a1 1 0 0 0 0-1.414l-2.377-2.377a1 1 0 0 0-1.414 0z"/></svg>',
+		element:
+			"<svg " +
+			S +
+			'><circle cx="12" cy="12" r="1"/><path d="M20.2 20.2c2.04-2.03.02-7.36-4.5-11.9-4.54-4.52-9.87-6.54-11.9-4.5-2.04 2.03-.02 7.36 4.5 11.9 4.54 4.52 9.87 6.54 11.9 4.5Z"/><path d="M15.7 15.7c4.52-4.54 6.54-9.87 4.5-11.9-2.03-2.04-7.36-.02-11.9 4.5-4.52 4.54-6.54 9.87-4.5 11.9 2.03 2.04 7.36.02 11.9-4.5Z"/></svg>',
+	};
+	var ENTER_SVG = "<svg " + S + '><polyline points="9 10 4 15 9 20"/><path d="M20 4v7a4 4 0 0 1-4 4H4"/></svg>';
+
+	function getIcon(section) {
+		var s = section.toLowerCase();
+		if (s.indexOf("component") !== -1) return ICONS.component;
+		if (s.indexOf("element") !== -1) return ICONS.element;
+		return ICONS.page;
+	}
+
+	function getItems() {
+		return results.querySelectorAll(".doc-search-result");
+	}
+
+	function setActive(index) {
+		var items = getItems();
+		if (!items.length) return;
+		if (index < 0) {
+			activeIndex = -1;
+			items.forEach(function (a) {
+				a.setAttribute("aria-selected", "false");
+			});
+			input.focus();
+			return;
+		}
+		if (index >= items.length) index = 0;
+		activeIndex = index;
+		items.forEach(function (a, i) {
+			a.setAttribute("aria-selected", i === activeIndex ? "true" : "false");
+		});
+		items[activeIndex].scrollIntoView({ block: "nearest" });
+	}
+
 	function openModal() {
 		overlay.hidden = false;
 		input.value = "";
+		activeIndex = -1;
 		renderResults("");
 		requestAnimationFrame(function () {
 			input.focus();
@@ -52,6 +102,7 @@ import "../scss/main.scss";
 	function renderResults(query) {
 		var q = query.trim().toLowerCase();
 		results.innerHTML = "";
+		activeIndex = -1;
 		if (empty) empty.hidden = true;
 
 		var hits =
@@ -66,25 +117,50 @@ import "../scss/main.scss";
 			return;
 		}
 
-		hits.forEach(function (p, i) {
-			var li = document.createElement("li");
-			var a = document.createElement("a");
-			a.href = p.url;
-			a.className = "doc-search-result";
-			a.setAttribute("role", "option");
-			a.setAttribute("aria-selected", i === 0 ? "true" : "false");
-			a.innerHTML =
-				'<span class="doc-search-result-section">' +
-				escHtml(p.section) +
-				"</span>" +
-				'<span class="doc-search-result-title">' +
-				escHtml(p.title) +
-				"</span>" +
-				(p.excerpt ? '<span class="doc-search-result-excerpt">' + escHtml(p.excerpt) + "</span>" : "");
-			a.addEventListener("click", closeModal);
-			li.appendChild(a);
-			results.appendChild(li);
+		// Group by section, preserving encounter order
+		var groups = Object.create(null);
+		var groupOrder = [];
+		hits.forEach(function (p) {
+			if (!groups[p.section]) {
+				groups[p.section] = [];
+				groupOrder.push(p.section);
+			}
+			groups[p.section].push(p);
 		});
+
+		groupOrder.forEach(function (section) {
+			var icon = getIcon(section);
+			var group = document.createElement("div");
+			group.className = "doc-search-group";
+
+			var header = document.createElement("div");
+			header.className = "doc-search-group-header";
+			header.textContent = section;
+			group.appendChild(header);
+
+			groups[section].forEach(function (p) {
+				var a = document.createElement("a");
+				a.href = p.url;
+				a.className = "doc-search-result";
+				a.setAttribute("aria-selected", "false");
+				a.innerHTML =
+					'<span class="doc-search-result-icon" aria-hidden="true">' +
+					icon +
+					"</span>" +
+					'<span class="doc-search-result-title">' +
+					escHtml(p.title) +
+					"</span>" +
+					'<span class="doc-search-result-enter" aria-hidden="true">' +
+					ENTER_SVG +
+					"</span>";
+				a.addEventListener("click", closeModal);
+				group.appendChild(a);
+			});
+
+			results.appendChild(group);
+		});
+
+		setActive(0);
 	}
 
 	function escHtml(s) {
@@ -95,18 +171,31 @@ import "../scss/main.scss";
 		btn.addEventListener("click", openModal);
 	});
 
-	// Cmd/Ctrl + K
 	document.addEventListener("keydown", function (e) {
 		if ((e.metaKey || e.ctrlKey) && e.key === "k") {
 			e.preventDefault();
 			overlay.hidden ? openModal() : closeModal();
+			return;
 		}
-		if (e.key === "Escape" && !overlay.hidden) {
+		if (overlay.hidden) return;
+		if (e.key === "Escape") {
 			closeModal();
+		} else if (e.key === "ArrowDown") {
+			e.preventDefault();
+			setActive(activeIndex + 1);
+		} else if (e.key === "ArrowUp") {
+			e.preventDefault();
+			setActive(activeIndex - 1);
+		} else if (e.key === "Enter") {
+			var items = getItems();
+			if (activeIndex >= 0 && items[activeIndex]) {
+				e.preventDefault();
+				closeModal();
+				window.location.href = items[activeIndex].href;
+			}
 		}
 	});
 
-	// Click outside panel to close
 	overlay.addEventListener("click", function (e) {
 		if (e.target === overlay) closeModal();
 	});
@@ -125,17 +214,22 @@ import "../scss/main.scss";
 	// Collect h2 and h3 elements in DOM order.
 	// Heading blocks set id via PHP Str::slug(); assign one for any
 	// hard-coded headings (e.g. the live demo) that are missing an id.
-	var allHeadings = Array.from(content.querySelectorAll("h2, h3")).map(function (h) {
-		if (!h.id) {
-			h.id = h.textContent
-				.trim()
-				.toLowerCase()
-				.replace(/[^a-z0-9\s-]/g, "")
-				.trim()
-				.replace(/\s+/g, "-");
-		}
-		return h;
-	});
+	// Exclude headings inside dialog/drawer panels — they are not page sections.
+	var allHeadings = Array.from(content.querySelectorAll("h2, h3"))
+		.filter(function (h) {
+			return !h.closest("[data-kui-dialog-panel], [data-kui-drawer-panel]");
+		})
+		.map(function (h) {
+			if (!h.id) {
+				h.id = h.textContent
+					.trim()
+					.toLowerCase()
+					.replace(/[^a-z0-9\s-]/g, "")
+					.trim()
+					.replace(/\s+/g, "-");
+			}
+			return h;
+		});
 
 	if (!allHeadings.length) return;
 

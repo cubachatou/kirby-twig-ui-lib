@@ -1,0 +1,102 @@
+title: Dialog
+icon: box
+
+sections:
+  content:
+    type: fields
+    fields:
+      title:
+        type: text
+        required: true
+      excerpt:
+        type: text
+        label: Excerpt
+        help: Short description shown in search results and the page meta description.
+      intro:
+        type: writer
+        label: Intro
+        help: Lead paragraph displayed beneath the title. Keep it to 1–2 sentences.
+        marks:
+          - bold
+          - italic
+          - code
+          - link
+      usage:
+        type: blocks
+        label: Usage
+        help: Installation steps and basic usage.
+        fieldsets:
+          - heading
+          - text
+          - code
+          - list
+
+      demo:
+        type: blocks
+        label: "Example — Default (live preview)"
+        fieldsets:
+          - kui-dialog
+
+      demo_code:
+        type: blocks
+        label: "Example — Default (usage code)"
+        fieldsets:
+          - code
+
+      demo_custom_close:
+        type: blocks
+        label: "Example — Custom Close Button (live preview)"
+        fieldsets:
+          - kui-dialog
+
+      demo_custom_close_code:
+        type: blocks
+        label: "Example — Custom Close Button (usage code)"
+        fieldsets:
+          - code
+
+      demo_no_close:
+        type: blocks
+        label: "Example — No Close Button (live preview)"
+        fieldsets:
+          - kui-dialog
+
+      demo_no_close_code:
+        type: blocks
+        label: "Example — No Close Button (usage code)"
+        fieldsets:
+          - code
+
+      demo_sticky_footer:
+        type: blocks
+        label: "Example — Sticky Footer (live preview)"
+        fieldsets:
+          - kui-dialog
+
+      demo_sticky_footer_code:
+        type: blocks
+        label: "Example — Sticky Footer (usage code)"
+        fieldsets:
+          - code
+
+      demo_scrollable:
+        type: blocks
+        label: "Example — Scrollable Content (live preview)"
+        fieldsets:
+          - kui-dialog
+
+      demo_scrollable_code:
+        type: blocks
+        label: "Example — Scrollable Content (usage code)"
+        fieldsets:
+          - code
+
+      body:
+        type: blocks
+        label: Body
+        fieldsets:
+          - heading
+          - text
+          - table
+          - code
+          - list

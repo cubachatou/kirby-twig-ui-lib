@@ -809,4 +809,31 @@ Uuid: doc-{{SLUG}}
 
 For the `demo_*` fields, pre-populate each with a realistic block that shows that example variant. Use the accordion's `content/2_components/1_accordion/accordion.txt` as the canonical format reference.
 
+#### Body field — required section structure
+
+The `Body` field must always include the following sections in this order. Use Kirby `heading` type blocks (not inline HTML inside `text` blocks) for all h2/h3/h4 headings so they are picked up correctly by the TOC.
+
+**Extending** (h2) — four h3 sub-sections:
+
+- Structure — add a new variant
+- Fields — add custom Panel fields
+- Styles — override or extend
+- JavaScript — extending behaviour
+
+**API Reference** (h2) — these h3 sub-sections in order:
+
+1. **Initialization** — description + code block showing `init{{Label}}(config)`
+2. **Options** — `table` block with columns `Option | Type | Default | Description`
+3. **Data attributes** — intro text + `table` block with columns `Attribute | Element | Description`. List every `data-kui-{{SLUG}}-*` attribute used by the JS. Intro text: `<p>These attributes are set by the Twig template and read by the JavaScript initialiser. Do not rename or remove them; the JS uses them as selectors and state hooks.</p>`
+4. **CSS classes** — `table` block with columns `Class | Element | Notes` (lowercase "classes")
+
+**Blueprint fields** (h2, not h3) — intro text + `table` block with columns `Field | Type | Default | Description`. This section is at h2 level, outside and after the API Reference h2.
+
+**Accessibility** (h2) — two `text` blocks:
+
+1. Intro paragraph: `<p>WCAG 2.1 AA. The attributes below are set automatically; you do not need to add them to templates or configure them in the panel.</p>`
+2. A `<ul>` list with `<li><p><strong>Category:</strong> detail.</p></li>` items covering: Keyboard navigation, ARIA, Focus management, No-JS fallback (if applicable).
+
+All Options / Data attributes / CSS classes / Blueprint fields sections **must** use Kirby `table` type blocks — never prose paragraphs listing items.
+
 ---

@@ -1,0 +1,101 @@
+title: Drawer
+icon: box
+
+sections:
+  content:
+    type: fields
+    fields:
+      title:
+        type: text
+        required: true
+      excerpt:
+        type: text
+        label: Excerpt
+        help: Short description shown in search results and the page meta description.
+      intro:
+        type: writer
+        label: Intro
+        help: Lead paragraph displayed beneath the title. Keep it to 1–2 sentences.
+        marks:
+          - bold
+          - italic
+          - code
+          - link
+      usage:
+        type: blocks
+        label: Usage
+        fieldsets:
+          - heading
+          - text
+          - code
+          - list
+
+      demo:
+        type: blocks
+        label: "Example — Default (live preview)"
+        fieldsets:
+          - kui-drawer
+
+      demo_code:
+        type: blocks
+        label: "Example — Default (usage code)"
+        fieldsets:
+          - code
+
+      demo_scrollable:
+        type: blocks
+        label: "Example — Scrollable Content (live preview)"
+        fieldsets:
+          - kui-drawer
+
+      demo_scrollable_code:
+        type: blocks
+        label: "Example — Scrollable Content (usage code)"
+        fieldsets:
+          - code
+
+      demo_left:
+        type: blocks
+        label: "Example — Left Side (live preview)"
+        fieldsets:
+          - kui-drawer
+
+      demo_left_code:
+        type: blocks
+        label: "Example — Left Side (usage code)"
+        fieldsets:
+          - code
+
+      demo_right:
+        type: blocks
+        label: "Example — Right Side (live preview)"
+        fieldsets:
+          - kui-drawer
+
+      demo_right_code:
+        type: blocks
+        label: "Example — Right Side (usage code)"
+        fieldsets:
+          - code
+
+      demo_responsive:
+        type: blocks
+        label: "Example — Responsive (live preview)"
+        fieldsets:
+          - kui-drawer
+
+      demo_responsive_code:
+        type: blocks
+        label: "Example — Responsive (usage code)"
+        fieldsets:
+          - code
+
+      body:
+        type: blocks
+        label: Body
+        fieldsets:
+          - heading
+          - text
+          - table
+          - code
+          - list

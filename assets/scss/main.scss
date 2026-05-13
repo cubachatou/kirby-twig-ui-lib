@@ -415,9 +415,7 @@ html {
 
     // .doc-search-results
     &-results {
-      list-style: none;
       padding: 0.5rem;
-      margin: 0;
       max-height: 20rem;
       overflow-y: auto;
 
@@ -426,12 +424,32 @@ html {
       }
     }
 
+    // .doc-search-group
+    &-group {
+      & + & {
+        margin-top: 0.25rem;
+        padding-top: 0.25rem;
+        border-top: 1px solid var(--color-doc-border);
+      }
+
+      // .doc-search-group-header
+      &-header {
+        padding: 0.375rem 0.75rem 0.2rem;
+        font-size: 0.6875rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--color-doc-muted);
+      }
+    }
+
     // .doc-search-result
     &-result {
+      position: relative;
       display: flex;
-      flex-direction: column;
-      gap: 0.125rem;
-      padding: 0.625rem 0.75rem;
+      align-items: center;
+      gap: 0.625rem;
+      padding: 0.5rem 2.5rem 0.5rem 0.75rem;
       border-radius: var(--doc-radius-md);
       cursor: pointer;
       text-decoration: none;
@@ -443,29 +461,52 @@ html {
         background-color: var(--color-doc-surface-2);
       }
 
-      // .doc-search-result-section
-      &-section {
-        font-size: 0.6875rem;
-        font-weight: 600;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
+      &:hover .doc-search-result-enter,
+      &[aria-selected='true'] .doc-search-result-enter {
+        opacity: 1;
+      }
+
+      // .doc-search-result-icon
+      &-icon {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
         color: var(--color-doc-muted);
+
+        svg {
+          width: 0.9375rem;
+          height: 0.9375rem;
+        }
       }
 
       // .doc-search-result-title
       &-title {
+        flex: 1;
+        min-width: 0;
         font-size: 0.9375rem;
         font-weight: 500;
         color: var(--color-doc-bright);
-      }
-
-      // .doc-search-result-excerpt
-      &-excerpt {
-        font-size: 0.8125rem;
-        color: var(--color-doc-muted);
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+      }
+
+      // .doc-search-result-enter
+      &-enter {
+        position: absolute;
+        right: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        align-items: center;
+        color: var(--color-doc-muted);
+        opacity: 0;
+        transition: opacity 100ms ease;
+
+        svg {
+          width: 1rem;
+          height: 1rem;
+        }
       }
     }
 
@@ -581,6 +622,12 @@ html {
     gap: 0 2.5rem;
     align-items: start;
     min-height: calc(100vh - 3.5rem);
+
+    // When no TOC block is rendered (section overview pages), expand to 2-col
+    &:not(:has(.doc-toc)) {
+      grid-template-columns: 15rem 1fr;
+      grid-template-areas: 'sidebar content';
+    }
   }
 
   // ── doc-sidebar ───────────────────────────────────────────────────────────
@@ -742,6 +789,7 @@ html {
 
       // .doc-nav-group-label
       &-label {
+        display: block;
         font-size: 0.6875rem;
         font-weight: 600;
         letter-spacing: 0.07em;
@@ -749,6 +797,12 @@ html {
         color: var(--color-doc-muted);
         margin: 0 0 0.375rem;
         padding: 0 0.5rem;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+          text-underline-offset: 2px;
+        }
       }
 
       // Section wayfinding — label colour + active item tint per section
@@ -823,6 +877,48 @@ html {
       &:focus-visible {
         outline: 2px solid var(--color-doc-ring);
         outline-offset: -2px;
+      }
+    }
+  }
+
+  // ── doc-section ───────────────────────────────────────────────────────────
+  .doc-section {
+    // .doc-section-list
+    &-list {
+      list-style: none;
+      padding: 0;
+      margin: 0.5rem 0 0;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.125rem 2rem;
+
+      @media (max-width: 900px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @media (max-width: 540px) {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    // .doc-section-list-link
+    &-list-link {
+      display: inline-block;
+      font-size: 1rem;
+      color: var(--color-doc-text);
+      text-decoration: none;
+      padding: 0.25rem 0;
+
+      &:hover {
+        color: var(--color-doc-bright);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--color-doc-ring);
+        outline-offset: 2px;
+        border-radius: var(--doc-radius-xs);
       }
     }
   }
@@ -954,7 +1050,7 @@ html {
   // ── doc-example ───────────────────────────────────────────────────────────
   // JS wraps each bare preview block + its following .doc-code into this card.
   .doc-example {
-    overflow: hidden;
+    overflow: visible;
     border: 1px solid var(--color-doc-border);
     border-radius: var(--doc-radius-lg);
     margin-bottom: 2.5rem;
@@ -972,13 +1068,14 @@ html {
       justify-content: center;
       gap: 0.75rem;
       flex-wrap: wrap;
+      border-radius: var(--doc-radius-lg) var(--doc-radius-lg) 0 0;
       border-bottom: 1px solid var(--color-doc-border);
     }
 
     // Strip border/radius from nested .doc-code — outer card provides the frame
     .doc-code {
       border: none;
-      border-radius: 0;
+      border-radius: 0 0 var(--doc-radius-lg) var(--doc-radius-lg);
       margin-bottom: 0;
     }
   }

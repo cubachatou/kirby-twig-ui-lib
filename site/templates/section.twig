@@ -1,0 +1,17 @@
+{% extends '@docs/layout.twig' %}
+
+{% block toc %}
+
+{% endblock %}
+
+{% block content %}
+	<div class="mb-10">
+		<h1 class="mb-0 text-[2.25rem] font-extrabold leading-none tracking-tight text-doc-bright">{{ page.title }}</h1>
+	</div>
+
+	<ul class="doc-section-list">
+		{% for child in page_children(page) %}
+			<li><a href="{{ child.url }}" class="doc-section-list-link">{{ child.title }}</a></li>
+		{% endfor %}
+	</ul>
+{% endblock %}

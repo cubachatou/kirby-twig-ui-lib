@@ -1,0 +1,102 @@
+{% extends '@docs/layout.twig' %}
+
+{% block page_title %}
+	{{ page.title }} — Kirby UI Library
+{% endblock %}
+{% block page_description %}
+	{{ page.excerpt }}
+{% endblock %}
+
+{% block content %}
+	{# ── 1. Component header ─────────────────────────────────────────── #}
+	<div class="mb-14">
+		<h1 class="mb-4 text-[2.25rem] font-extrabold leading-none tracking-tight text-doc-bright">{{ page.title }}</h1>
+		{% if page.intro.isNotEmpty %}
+			<div class="doc-intro">
+				{{ page.intro|raw }}
+			</div>
+		{% endif %}
+	</div>
+
+	{# ── 2. Usage ────────────────────────────────────────────────────── #}
+	{% if page.usage.isNotEmpty %}
+		<section id="usage" class="mb-14 scroll-mt-20">
+			<h2 class="doc-heading">Usage</h2>
+			{{ page.usage.toBlocks|raw }}
+		</section>
+	{% endif %}
+
+	{# ── 3. Examples ─────────────────────────────────────────────────── #}
+	<section id="examples" class="mb-14 scroll-mt-20">
+		<h2 class="doc-heading">Examples</h2>
+
+		{% if page.demo.isNotEmpty %}
+			<h3 class="doc-subheading">Default</h3>
+			<p class="doc-lead">
+				A bottom-sheet drawer that slides up from the bottom of the viewport. Drag the handle or press Escape to dismiss.
+			</p>
+			<div class="doc-example">
+				<div class="doc-example-preview">
+					{{ page.demo.toBlocks|raw }}
+				</div>
+				{% if page.demo_code.isNotEmpty %}{{ page.demo_code.toBlocks|raw }}{% endif %}
+			</div>
+		{% endif %}
+
+		{% if page.demo_scrollable.isNotEmpty %}
+			<h3 class="doc-subheading">Scrollable Content</h3>
+			<p class="doc-lead">
+				The body scrolls within a capped max-height. The footer remains pinned below the scroll region for easy access to action buttons.
+			</p>
+			<div class="doc-example">
+				<div class="doc-example-preview">
+					{{ page.demo_scrollable.toBlocks|raw }}
+				</div>
+				{% if page.demo_scrollable_code.isNotEmpty %}{{ page.demo_scrollable_code.toBlocks|raw }}{% endif %}
+			</div>
+		{% endif %}
+
+		{% if page.demo_left.isNotEmpty %}
+			<h3 class="doc-subheading">Left Side</h3>
+			<p class="doc-lead">
+				Slides in from the left edge. Useful for navigation panels and filter drawers.
+			</p>
+			<div class="doc-example">
+				<div class="doc-example-preview">
+					{{ page.demo_left.toBlocks|raw }}
+				</div>
+				{% if page.demo_left_code.isNotEmpty %}{{ page.demo_left_code.toBlocks|raw }}{% endif %}
+			</div>
+		{% endif %}
+
+		{% if page.demo_right.isNotEmpty %}
+			<h3 class="doc-subheading">Right Side</h3>
+			<p class="doc-lead">
+				Slides in from the right edge. Common for detail panels and settings drawers.
+			</p>
+			<div class="doc-example">
+				<div class="doc-example-preview">
+					{{ page.demo_right.toBlocks|raw }}
+				</div>
+				{% if page.demo_right_code.isNotEmpty %}{{ page.demo_right_code.toBlocks|raw }}{% endif %}
+			</div>
+		{% endif %}
+
+		{% if page.demo_responsive.isNotEmpty %}
+			<h3 class="doc-subheading">Responsive (Vaul-style)</h3>
+			<p class="doc-lead">
+				Renders as a bottom-sheet drawer on mobile. On viewports ≥ 768 px it repositions to a centered modal dialog — a vanilla-JS equivalent of
+				<a href="https://vaul.emilkowal.ski/" target="_blank" rel="noopener">Vaul</a>.
+			</p>
+			<div class="doc-example">
+				<div class="doc-example-preview">
+					{{ page.demo_responsive.toBlocks|raw }}
+				</div>
+				{% if page.demo_responsive_code.isNotEmpty %}{{ page.demo_responsive_code.toBlocks|raw }}{% endif %}
+			</div>
+		{% endif %}
+	</section>
+
+	{# ── 4. Body blocks — edit content in the Kirby panel ─────────────── #}
+	{{ page.body.toBlocks|raw }}
+{% endblock %}
