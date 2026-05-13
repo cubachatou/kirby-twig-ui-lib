@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" class="scroll-smooth">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>{% block page_title %}Kirby UI Library{% endblock %}</title>
+		<meta name="description" content="{% block page_description %}Accessible, self-contained UI blocks for Kirby CMS 5. No framework opinions, no build step for consumers.{% endblock %}" />
+
+		{# ── Doc-site CSS (Tailwind) ────────────────────────────────────────── #}
+		{% set _entry = vite_asset('assets/js/main.js') %}
+		{% if _entry.css is defined and _entry.css[0] is defined %}
+			<link rel="stylesheet" href="/assets/dist/{{ _entry.css[0] }}" />
+		{% endif %}
+		{% if option('debug') %}
+			<script type="module" src="http://localhost:5173/@vite/client"></script>
+			<script type="module" src="http://localhost:5173/assets/js/main.js"></script>
+		{% elseif _entry.file is defined %}
+			<script type="module" src="/assets/dist/{{ _entry.file }}"></script>
+		{% endif %}
+
+		{# ── Plugin assets (component CSS + JS) ───────────────────────────── #}
+		{{ snippet('kui/assets')|raw }}
+
+		{# ── Theme init: runs before first paint to avoid flash ───────────── #}
+		<script>
+			(function () {
+				var stored = localStorage.getItem('ui-lib-theme');
+				var preferred = stored || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+				document.documentElement.setAttribute('data-theme', preferred);
+			}());
+		</script>
+	</head>
+	<body class="bg-doc-bg text-doc-text antialiased" data-home style="font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+
+		{# ── Search index: JSON blob consumed by search.js ─────────────────── #}
+		<script id="doc-search-index" type="application/json">
+			{% set search_pages = [] %}
+			{% for section in site.children.listed %}
+				{% for doc_page in page_children(section) %}
+					{% set search_pages = search_pages|merge([{
+						title: doc_page.title.value,
+						url: '/' ~ doc_page.uri,
+						excerpt: doc_page.excerpt is defined ? doc_page.excerpt.value : '',
+						section: section.title.value
+					}]) %}
+				{% endfor %}
+			{% endfor %}
+			{{ search_pages|json_encode|raw }}
+		</script>
+
+		{# ── Skip to main content (accessibility) ──────────────────────────── #}
+		<a href="#doc-home-content" class="doc-skip-link">Skip to main content</a>
+
+		{# ── Top navigation ─────────────────────────────────────────────────── #}
+		{% include '@docs/header.twig' %}
+
+		{# ── Full-width main: no 3-column grid on the home page ────────────── #}
+		<main id="doc-home-content" tabindex="-1">
+			{% block content %}{% endblock %}
+		</main>
+
+		{# ── Search modal ───────────────────────────────────────────────────── #}
+		<div class="doc-search-overlay" id="doc-search-overlay" role="dialog" aria-modal="true" aria-label="Search documentation" hidden>
+			<div class="doc-search-panel">
+				<div class="doc-search-input-wrap">
+					<svg class="doc-search-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+						<path d="M6.5 11a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm3.25-1.311 2.94 2.94a.75.75 0 0 1-1.06 1.06l-2.94-2.94A5.96 5.96 0 0 1 6.5 12 6 6 0 1 1 12.5 6a5.96 5.96 0 0 1-1.75 4.189Z" fill="currentColor"/>
+					</svg>
+					<input
+						type="search"
+						id="doc-search-input"
+						class="doc-search-input"
+						placeholder="Search documentation…"
+						autocomplete="off"
+						spellcheck="false"
+						aria-autocomplete="list"
+						aria-controls="doc-search-results"
+					/>
+					<kbd class="doc-search-esc">Esc</kbd>
+				</div>
+				<ul class="doc-search-results" id="doc-search-results" role="listbox" aria-label="Search results"></ul>
+				<div class="doc-search-empty" id="doc-search-empty" hidden>No results found.</div>
+			</div>
+		</div>
+
+		{# ── Prism syntax highlighting ───────────────────────────────────────── #}
+		<script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+		<script>
+			Prism.plugins.autoloader.languages_path = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/';
+			Prism.highlightAll();
+		</script>
+
+	</body>
+</html>

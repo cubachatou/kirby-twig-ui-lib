@@ -1430,4 +1430,214 @@ html {
       display: none;
     }
   }
+
+  // ── Home page ────────────────────────────────────────────────────────────
+  // No sidebar on the home layout — hide the hamburger at all breakpoints.
+  [data-home] .doc-hamburger {
+    display: none;
+  }
+
+  // ── Hero ──────────────────────────────────────────────────────────────────
+  .doc-home-hero {
+    background-color: var(--color-doc-accent-dim);
+    border-top: 3px solid var(--color-doc-accent);
+    padding: 5rem 1.5rem 4.5rem;
+
+    &-inner {
+      max-width: 44rem;
+      margin-inline: auto;
+    }
+
+    &-heading {
+      font-size: clamp(2.25rem, 5vw + 0.5rem, 3.75rem);
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      line-height: 1.1;
+      color: var(--color-doc-bright);
+      margin: 0 0 1.25rem;
+    }
+
+    &-desc {
+      font-size: 1.0625rem;
+      line-height: 1.75;
+      color: var(--color-doc-text);
+      max-width: 50ch;
+      margin: 0;
+    }
+  }
+
+  // ── CTA button ────────────────────────────────────────────────────────────
+  .doc-home-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    margin-top: 2.25rem;
+    padding: 0.6875rem 1.25rem;
+    background-color: var(--color-doc-accent);
+    color: oklch(98% 0.003 264);
+    border-radius: var(--doc-radius-md);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition:
+      background-color 150ms ease,
+      opacity 150ms ease;
+
+    &:hover {
+      background-color: oklch(62% 0.22 264);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-doc-ring);
+      outline-offset: 2px;
+    }
+  }
+
+  // ── Feature list ──────────────────────────────────────────────────────────
+  .doc-home-features {
+    padding: 4rem 1.5rem;
+    background-color: var(--color-doc-bg);
+    border-top: 1px solid var(--color-doc-border);
+
+    &-inner {
+      max-width: 44rem;
+      margin-inline: auto;
+    }
+
+    &-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        display: flex;
+        align-items: baseline;
+        gap: 1.5rem;
+        padding: 1.125rem 0;
+        border-bottom: 1px solid var(--color-doc-border-sub);
+
+        &:first-child {
+          border-top: 1px solid var(--color-doc-border-sub);
+        }
+      }
+    }
+
+    &-num {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--color-doc-muted);
+      font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
+      width: 1.75rem;
+    }
+
+    &-label {
+      font-size: clamp(1.0625rem, 2vw + 0.25rem, 1.375rem);
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      color: var(--color-doc-bright);
+      line-height: 1.2;
+    }
+  }
+
+  // ── Live component preview ────────────────────────────────────────────────
+  .doc-home-preview {
+    padding: 4rem 1.5rem;
+    background-color: var(--color-doc-surface);
+    border-top: 1px solid var(--color-doc-border);
+
+    &-inner {
+      max-width: 44rem;
+      margin-inline: auto;
+    }
+
+    &-label {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--color-doc-muted);
+      margin: 0 0 1.5rem;
+    }
+  }
+
+  // ── Docs navigation ───────────────────────────────────────────────────────
+  .doc-home-nav {
+    padding: 0 1.5rem;
+    border-top: 1px solid var(--color-doc-border);
+    background-color: var(--color-doc-bg);
+
+    &-inner {
+      max-width: 44rem;
+      margin-inline: auto;
+    }
+
+    &-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--color-doc-border-sub);
+      text-decoration: none;
+      color: var(--color-doc-text);
+      transition: color 150ms ease;
+
+      &:first-child {
+        border-top: 1px solid var(--color-doc-border-sub);
+        margin-top: 2rem;
+      }
+
+      &:last-child {
+        margin-bottom: 4rem;
+      }
+
+      svg {
+        flex-shrink: 0;
+        color: var(--color-doc-muted);
+        transition:
+          transform 150ms ease,
+          color 150ms ease;
+      }
+
+      &:hover svg {
+        transform: translateX(3px);
+      }
+
+      &[data-section='1']:hover {
+        color: var(--color-doc-section-1);
+
+        svg {
+          color: var(--color-doc-section-1);
+        }
+      }
+
+      &[data-section='2']:hover {
+        color: var(--color-doc-section-2);
+
+        svg {
+          color: var(--color-doc-section-2);
+        }
+      }
+
+      &[data-section='3']:hover {
+        color: var(--color-doc-section-3);
+
+        svg {
+          color: var(--color-doc-section-3);
+        }
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--color-doc-ring);
+        outline-offset: 2px;
+      }
+    }
+
+    &-link-label {
+      font-size: clamp(1.125rem, 2.5vw, 1.375rem);
+      font-weight: 700;
+      letter-spacing: -0.015em;
+    }
+  }
 }

@@ -1,0 +1,10 @@
+title: Home
+
+sections:
+  fields:
+    type: fields
+    fields:
+      title:
+        type: text
+        label: Title
+        required: true

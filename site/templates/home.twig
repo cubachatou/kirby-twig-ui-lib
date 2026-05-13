@@ -1,0 +1,197 @@
+{% extends '@docs/layout-home.twig' %}
+
+{% block page_title %}Kirby UI Library{% endblock %}
+
+{% block content %}
+
+	{# ══════════════════════════════════════════════════════════════════════
+	   Hero
+	   Accent-dim surface + 3px accent top border creates a committed color
+	   zone that is visually distinct from every inner doc page.
+	   ══════════════════════════════════════════════════════════════════════ #}
+	<section class="doc-home-hero">
+		<div class="doc-home-hero-inner">
+			<h1 class="doc-home-hero-heading">Kirby UI Library</h1>
+			<p class="doc-home-hero-desc">
+				Accessible, semantic blocks for Kirby CMS 5. CSS-agnostic JS, Twig embed pattern, zero build step for consumers.
+			</p>
+			<a href="/getting-started/introduction" class="doc-home-cta">
+				Get Started
+				<svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+					<path d="M2.5 7h9M8 3.5 11.5 7 8 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+			</a>
+		</div>
+	</section>
+
+	{# ══════════════════════════════════════════════════════════════════════
+	   Capabilities
+	   Numbered typographic list: no cards, no icons, hierarchy through
+	   scale and weight contrast alone.
+	   ══════════════════════════════════════════════════════════════════════ #}
+	<section class="doc-home-features" aria-label="Plugin capabilities">
+		<div class="doc-home-features-inner">
+			<ol class="doc-home-features-list" aria-label="Plugin capabilities">
+				<li>
+					<span class="doc-home-features-num" aria-hidden="true">01</span>
+					<span class="doc-home-features-label">Kirby block system</span>
+				</li>
+				<li>
+					<span class="doc-home-features-num" aria-hidden="true">02</span>
+					<span class="doc-home-features-label">Twig embed pattern</span>
+				</li>
+				<li>
+					<span class="doc-home-features-num" aria-hidden="true">03</span>
+					<span class="doc-home-features-label">CSS-agnostic JS</span>
+				</li>
+				<li>
+					<span class="doc-home-features-num" aria-hidden="true">04</span>
+					<span class="doc-home-features-label">Zero npm for consumers</span>
+				</li>
+				<li>
+					<span class="doc-home-features-num" aria-hidden="true">05</span>
+					<span class="doc-home-features-label">WCAG 2.1 AA</span>
+				</li>
+			</ol>
+		</div>
+	</section>
+
+	{# ══════════════════════════════════════════════════════════════════════
+	   Live component preview
+	   Inline HTML that mirrors the accordion block output exactly —
+	   same classes, data-attributes, and ARIA wiring the plugin generates.
+	   The plugin JS picks it up via [data-kui-accordion].
+	   ══════════════════════════════════════════════════════════════════════ #}
+	<section class="doc-home-preview" aria-labelledby="doc-home-preview-label">
+		<div class="doc-home-preview-inner">
+			<p class="doc-home-preview-label" id="doc-home-preview-label">Live component preview</p>
+
+			<div
+				class="kui-accordion"
+				id="home-demo"
+				data-kui-accordion
+				data-kui-accordion-options='{"allowMultipleOpen":false}'
+			>
+
+				{# Item 1 — open by default #}
+				<div class="kui-accordion__item" data-kui-accordion-item>
+					<div class="kui-accordion__header">
+						<button
+							class="kui-accordion__trigger"
+							id="home-demo__trigger-1"
+							type="button"
+							aria-expanded="true"
+							aria-controls="home-demo__panel-1"
+							data-kui-accordion-trigger
+						>
+							What is a Kirby block?
+						</button>
+					</div>
+					<div
+						class="kui-accordion__body"
+						id="home-demo__panel-1"
+						role="region"
+						aria-labelledby="home-demo__trigger-1"
+						data-kui-accordion-panel
+					>
+						<div class="kui-accordion__body-inner">
+							<div class="kui-accordion__content">
+								<p>Blocks are Kirby's panel-native content elements: configurable, drag-and-droppable units with their own blueprint, Twig template, BEM SCSS, and vanilla JS. This plugin ships each component as a proper Kirby block.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{# Item 2 — closed #}
+				<div class="kui-accordion__item" data-kui-accordion-item>
+					<div class="kui-accordion__header">
+						<button
+							class="kui-accordion__trigger"
+							id="home-demo__trigger-2"
+							type="button"
+							aria-expanded="false"
+							aria-controls="home-demo__panel-2"
+							data-kui-accordion-trigger
+						>
+							How does the Twig embed pattern work?
+						</button>
+					</div>
+					<div
+						class="kui-accordion__body"
+						id="home-demo__panel-2"
+						role="region"
+						aria-labelledby="home-demo__trigger-2"
+						hidden
+						data-kui-accordion-panel
+					>
+						<div class="kui-accordion__body-inner">
+							<div class="kui-accordion__content">
+								<p>Each block template exposes overridable Twig blocks. Your project template uses <code>{% verbatim %}{% embed %}{% endverbatim %}</code> to inherit the base and override only what it needs, without duplicating markup or logic.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{# Item 3 — closed #}
+				<div class="kui-accordion__item" data-kui-accordion-item>
+					<div class="kui-accordion__header">
+						<button
+							class="kui-accordion__trigger"
+							id="home-demo__trigger-3"
+							type="button"
+							aria-expanded="false"
+							aria-controls="home-demo__panel-3"
+							data-kui-accordion-trigger
+						>
+							Is it accessible without JavaScript?
+						</button>
+					</div>
+					<div
+						class="kui-accordion__body"
+						id="home-demo__panel-3"
+						role="region"
+						aria-labelledby="home-demo__trigger-3"
+						hidden
+						data-kui-accordion-panel
+					>
+						<div class="kui-accordion__body-inner">
+							<div class="kui-accordion__content">
+								<p>Components render with semantic HTML and correct ARIA attributes from the server. The first panel opens by default. JS enhances toggle behavior without being required for initial content access.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</section>
+
+	{# ══════════════════════════════════════════════════════════════════════
+	   Path to docs
+	   Three section links with section-palette hover colors, matching the
+	   wayfinding used in the sidebar.
+	   ══════════════════════════════════════════════════════════════════════ #}
+	<nav class="doc-home-nav" aria-label="Documentation sections">
+		<div class="doc-home-nav-inner">
+			<a href="/getting-started/introduction" class="doc-home-nav-link" data-section="1">
+				<span class="doc-home-nav-link-label">Getting Started</span>
+				<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+					<path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+			</a>
+			<a href="/components/accordion" class="doc-home-nav-link" data-section="2">
+				<span class="doc-home-nav-link-label">Components</span>
+				<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+					<path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+			</a>
+			<a href="/elements/button" class="doc-home-nav-link" data-section="3">
+				<span class="doc-home-nav-link-label">Elements</span>
+				<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+					<path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+			</a>
+		</div>
+	</nav>
+
+{% endblock %}
