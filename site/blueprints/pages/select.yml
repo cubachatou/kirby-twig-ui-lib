@@ -88,20 +88,6 @@ sections:
         fieldsets:
           - code
 
-      demo_invalid:
-        type: blocks
-        label: "Example — Invalid (live preview)"
-        help: Select with the Invalid setting enabled, showing the error state.
-        fieldsets:
-          - kui-select
-
-      demo_invalid_code:
-        type: blocks
-        label: "Example — Invalid (usage code)"
-        help: Code snippet shown below the live preview.
-        fieldsets:
-          - code
-
       body:
         type: blocks
         label: Body
