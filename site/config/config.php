@@ -23,12 +23,16 @@ return [
         },
     ],
 
-    // Register the @ui Twig namespace so that any template can reference
-    // kui snippets as @ui/filename.twig — mirrors the @ui Vite alias
-    // declared in site/plugins/kui/vite.config.js.
+    // Register the @ui Twig namespace.
+    // Paths are searched in order — place the project-local directory first so
+    // any file in site/snippets/ui/ silently overrides the plugin template.
+    // The plugin path acts as the fallback when no project file is present.
     // Register the @docs namespace for shared doc-site layout snippets.
     'wearejust.twig.namespaces' => [
-        'ui'   => __DIR__ . '/../plugins/kui/snippets/blocks',
+        'ui'   => [
+            kirby()->root('site') . '/snippets/ui',
+            __DIR__ . '/../plugins/kui/snippets/blocks',
+        ],
         'docs' => __DIR__ . '/../snippets/docs',
     ],
 ];

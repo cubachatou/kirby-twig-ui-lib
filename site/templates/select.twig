@@ -85,17 +85,12 @@
 		{# ── Invalid — hardcoded demo; state is set by JS on form submission ── #}
 		<h3 class="doc-subheading">Invalid</h3>
 		<p class="doc-lead">
-			When a required select is submitted without a value, JS sets <code>data-invalid</code> on the root element and <code>aria-invalid="true"</code> on the trigger. This drives the red border in SCSS and signals the error to assistive technology.
+			When a required select is submitted without a value, JS sets <code>data-invalid</code> on the root element and <code>aria-invalid="true"</code> on the trigger. This drives the red border in SCSS and
+			signals the error to assistive technology.
 		</p>
 		<div class="doc-example">
 			<div class="doc-example-preview">
-				<div
-					class="kui-select"
-					id="select-invalid-ex"
-					data-kui-select
-					data-state="closed"
-					data-invalid
-				>
+				<div class="kui-select" id="select-invalid-ex" data-kui-select data-state="closed" data-invalid>
 					<button
 						class="kui-select__trigger"
 						id="select-invalid-ex__trigger"
@@ -106,23 +101,43 @@
 						aria-controls="select-invalid-ex__listbox"
 						aria-labelledby="select-invalid-ex__trigger select-invalid-ex__value"
 						data-kui-select-trigger
-						aria-invalid="true"
-					>
+						aria-invalid="true">
 						<span class="kui-select__value" id="select-invalid-ex__value" data-kui-select-value>Select an option…</span>
-						<svg class="kui-select__chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6"/></svg>
+						<svg
+							class="kui-select__chevron"
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2.5"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							aria-hidden="true"
+							focusable="false">
+							<path d="M6 9l6 6 6-6" />
+						</svg>
 					</button>
 					<span class="kui-select__error" role="alert">Please select an option to continue.</span>
 					<div class="kui-select__content" id="select-invalid-ex__listbox" role="listbox" aria-label="Options" data-kui-select-content data-state="closed" hidden>
-						<div class="kui-select__item" role="option" data-kui-select-item data-value="a" aria-selected="false" id="select-invalid-ex__option-1">Option A</div>
-						<div class="kui-select__item" role="option" data-kui-select-item data-value="b" aria-selected="false" id="select-invalid-ex__option-2">Option B</div>
-						<div class="kui-select__item" role="option" data-kui-select-item data-value="c" aria-selected="false" id="select-invalid-ex__option-3">Option C</div>
+						<div class="kui-select__item" role="option" data-kui-select-item data-value="a" aria-selected="false" id="select-invalid-ex__option-1">
+							Option A
+						</div>
+						<div class="kui-select__item" role="option" data-kui-select-item data-value="b" aria-selected="false" id="select-invalid-ex__option-2">
+							Option B
+						</div>
+						<div class="kui-select__item" role="option" data-kui-select-item data-value="c" aria-selected="false" id="select-invalid-ex__option-3">
+							Option C
+						</div>
 					</div>
 				</div>
 			</div>
 			<div class="doc-code" data-copy-block>
-				<pre><code class="language-plaintext"># JS sets these on submit when the select is required and empty:
-# data-invalid        → on the root element  (drives the red border)
-# aria-invalid="true" → on the trigger button (signals the error to AT)</code></pre>
+				<pre>
+					<code class="language-plaintext">
+						# JS sets these on submit when the select is required and empty: # data-invalid → on the root element (drives the red border) # aria-invalid="true" → on the trigger button (signals the
+						error to AT)
+					</code>
+				</pre>
 			</div>
 		</div>
 	</section>

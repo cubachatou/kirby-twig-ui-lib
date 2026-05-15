@@ -188,6 +188,17 @@ class Environment
 
         $canSkip = ['snippets', 'plugins', 'assets'];
         foreach ($options['namespace'] as $key=>$path) {
+            // Support an array of paths per namespace so consumers can
+            // prepend project-local override directories before the plugin path.
+            // Paths are searched in declaration order (first match wins).
+            if (is_array($path)) {
+                foreach ($path as $p) {
+                    if (!is_string($p)) continue;
+                    if (!file_exists($p)) continue;
+                    $loader->addPath($p, $key);
+                }
+                continue;
+            }
             if (!is_string($path)) continue;
             if (in_array($key, $canSkip) && !file_exists($path)) continue;
             $loader->addPath($path, $key);
