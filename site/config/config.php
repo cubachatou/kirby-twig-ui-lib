@@ -30,7 +30,7 @@ return [
     // Register the @docs namespace for shared doc-site layout snippets.
     'wearejust.twig.namespaces' => [
         'ui'   => [
-            kirby()->root('site') . '/snippets/ui',
+            __DIR__ . '/../snippets/ui',
             __DIR__ . '/../plugins/kui/snippets/blocks',
         ],
         'docs' => __DIR__ . '/../snippets/docs',

@@ -890,7 +890,7 @@ html {
       margin: 0.5rem 0 0;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 0.125rem 2rem;
+      gap: 2rem;
 
       @media (max-width: 900px) {
         grid-template-columns: repeat(2, 1fr);
